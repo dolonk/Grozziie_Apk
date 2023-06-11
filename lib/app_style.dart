@@ -13,10 +13,12 @@ const Color primaryRed = Color(0xffFF5A5F);
 const Color kGray = Color(0xff767676);
 const Color primaryBlack = Color(0xff484848);
 const Color kWhiteColor = Colors.white;
-Color kTextColor = const Color(0xff000000).withOpacity(0.6);
+Color kTextColor =  const Color(0xff000000).withOpacity(0.6);
 
 // app Images
-String sPlash = "assets/images/login_splash.jpg";
+const String sPlashBackground = "assets/images/splash.jpg";
+const String loginBackground = "assets/images/login_background_icon.jpg";
+const String appIcon = "assets/icons/app_icon.png";
 
 // app fonts.
 String pBold = "Poppins_Bold";

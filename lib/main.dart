@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/ui/signUp_screen/signUp_screen.dart';
+import 'package:grozziieapk/ui/login_screen.dart';
+import 'package:grozziieapk/ui/signUp_screen.dart';
+import 'package:grozziieapk/ui/splash_screen.dart';
 
 import 'app_style.dart';
 
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: SignUpScreen(),
+      child: Splashscreen(),
     );
   }
 }
