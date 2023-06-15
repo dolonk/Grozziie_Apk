@@ -1,12 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/ui/login_screen.dart';
-import 'package:grozziieapk/ui/signUp_screen.dart';
+import 'package:grozziieapk/ui/home_screen/dashboard_screen.dart';
+import 'package:grozziieapk/ui/home_screen/home_screen.dart';
 import 'package:grozziieapk/ui/splash_screen.dart';
 
-import 'app_style.dart';
+import 'example.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp( const MyApp());
 }
 

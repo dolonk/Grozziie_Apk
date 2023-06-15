@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "551520656953",
+    "project_id": "goziapp-f75ab",
+    "storage_bucket": "goziapp-f75ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551520656953:android:57396989c024dcc0cb77e8",
+        "android_client_info": {
+          "package_name": "com.example.grozziieapk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551520656953-06m25pvdkb46a0i98qjiaa1b4f602tqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgoiIHYQWO6yN2AnufrY5a2OfUixmey4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551520656953-06m25pvdkb46a0i98qjiaa1b4f602tqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

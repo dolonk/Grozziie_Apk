@@ -9,7 +9,7 @@ String searchIcon = "assets/icons/search.svg";
 String voiceIcon = "assets/icons/voice.svg";
 
 //App Colors.
-const Color primaryRed = Color(0xffFF5A5F);
+const Color primaryBlue = Color(0xff004368);
 const Color kGray = Color(0xff767676);
 const Color primaryBlack = Color(0xff484848);
 const Color kWhiteColor = Colors.white;
@@ -18,6 +18,7 @@ Color kTextColor =  const Color(0xff000000).withOpacity(0.6);
 // app Images
 const String sPlashBackground = "assets/images/splash.jpg";
 const String loginBackground = "assets/images/login_background_icon.jpg";
+const String loginAppIcon = "assets/icons/login_app_icon.png";
 const String appIcon = "assets/icons/app_icon.png";
 
 // app fonts.
@@ -53,6 +54,8 @@ TextStyle bodySmall = TextStyle(
 class InputEditText extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
+  final bool isPass;
+  final TextInputType textInputType;
   final Widget? prefix;
   final Widget? suffix;
 
@@ -60,6 +63,8 @@ class InputEditText extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hintText,
+    this.isPass = false,
+    required this.textInputType,
     this.prefix,
     this.suffix,
   }) : super(key: key);
@@ -93,6 +98,8 @@ class InputEditText extends StatelessWidget {
                 hintText: hintText,
                 hintStyle: bodySmall,
               ),
+              keyboardType: textInputType,
+              obscureText: isPass,
             ),
           ),
           if (suffix != null) suffix!,

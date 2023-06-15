@@ -4,14 +4,71 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/ui/login_screen.dart';
 
 import '../app_style.dart';
+import '../resourcs/auth_methods.dart';
+import '../utils/utils.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _userName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
+  bool _isLoading = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
-  SignUpScreen({super.key});
+  @override
+  void dispose() {
+    super.dispose();
+    _userName.dispose();
+    _email.dispose();
+    _password.dispose();
+    _confirmPassword.dispose();
+  }
+
+  void _signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String userName = _userName.text;
+    String email = _email.text;
+    String password = _password.text;
+    String confirmPassword = _confirmPassword.text;
+
+    if (password != confirmPassword) {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar("Passwords do not match", context);
+      return;
+    }
+
+    String res = await AuthMethod().signUpUser(
+      userName: userName,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (res != 'Success') {
+      showSnackBar(res, context);
+    } else {
+      showSnackBar('Signup Successfully', context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,48 +111,75 @@ class SignUpScreen extends StatelessWidget {
                     fontWeight: FontWeight.w300,
                     color: kTextColor,
                   )),
-              InputEditText(controller: _userName, hintText: 'UserName'),
+              InputEditText(
+                controller: _userName,
+                hintText: 'UserName',
+                textInputType: TextInputType.text,
+              ),
               SizedBox(height: 17.h),
-              InputEditText(controller: _email, hintText: 'Email'),
+              InputEditText(
+                controller: _email,
+                hintText: 'Email',
+                textInputType: TextInputType.emailAddress,
+              ),
               SizedBox(height: 17.h),
               InputEditText(
                 controller: _password,
-                hintText: 'Password',
+                hintText: 'Enter password',
                 suffix: IconButton(
-                  onPressed: () {},
-                  icon: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
                     icon: Image.asset(
-                      'assets/icons/pass_icon.png',
+                      _isPasswordVisible
+                          ? 'assets/icons/password_visible_icon.png'
+                          : 'assets/icons/pass_icon.png',
                       color: Colors.black,
-                      width: 50,
-                    ),
-                  ),
-                ),
+                      width: 24,
+                      height: 24,
+                    )),
+                textInputType: TextInputType.text,
+                isPass: !_isPasswordVisible,
               ),
               SizedBox(height: 17.h),
               InputEditText(
                 controller: _confirmPassword,
                 hintText: 'Confirm password',
                 suffix: IconButton(
-                  onPressed: () {},
-                  icon: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
                     icon: Image.asset(
-                      'assets/icons/pass_icon.png',
+                      _isConfirmPasswordVisible
+                          ? 'assets/icons/password_visible_icon.png'
+                          : 'assets/icons/pass_icon.png',
                       color: Colors.black,
-                      width: 50,
-                    ),
-                  ),
-                ),
+                      width: 24,
+                      height: 24,
+                    )),
+                textInputType: TextInputType.text,
+                isPass: !_isConfirmPasswordVisible,
               ),
               SizedBox(height: 40.h),
-              ReusableButton(
-                  text: 'Create account',
-                  onPressed: () {},
-                  height: 57.h,
-                  width: 263.w,
-                  buttonColor: const Color(0xff004368)),
+              _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.red,
+                      ),
+                    )
+                  : ReusableButton(
+                      text: 'Create account',
+                      onPressed: () {
+                        _signUpUser();
+                      },
+                      height: 50.h,
+                      width: 263.w,
+                      buttonColor: primaryBlue,
+                    ),
               SizedBox(height: 18.h),
               RichText(
                 text: TextSpan(
