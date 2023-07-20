@@ -1,11 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/ui/home_screen/dashboard_screen.dart';
-import 'package:grozziieapk/ui/home_screen/home_screen.dart';
-import 'package:grozziieapk/ui/splash_screen.dart';
-
-import 'example.dart';
+import 'package:grozziieapk/providers/text_provider.dart';
+import 'package:grozziieapk/ui/create_label/create_label.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -13,7 +11,10 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp( const MyApp());
+  runApp(MultiProvider(
+    providers: [
+    ChangeNotifierProvider(create: (_) => TextProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: Splashscreen(),
+      child: CreateLabel(),
     );
   }
 }

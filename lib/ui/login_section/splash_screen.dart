@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grozziieapk/ui/login_screen.dart';
+import 'package:grozziieapk/ui/login_section/login_screen.dart';
 
-import '../app_style.dart';
+import '../../app_style.dart';
+
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
