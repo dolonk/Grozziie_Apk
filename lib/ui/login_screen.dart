@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/ui/home_screen/home_screen.dart';
 import 'package:grozziieapk/ui/signUp_screen.dart';
-
 import '../app_style.dart';
-import '../resourcs/auth_methods.dart';
 import '../utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -86,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: screenHeight * 0.2),
-              Image.asset(loginAppIcon),
+              Image.asset('assets/icons/login_app_icon.png',),
               SizedBox(height: screenHeight * 0.05),
               Text(
                 'LogIn',
@@ -144,13 +142,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isPasswordVisible
                         ? 'assets/icons/password_visible_icon.png'
                         : 'assets/icons/pass_icon.png',
-                      color: Colors.black,
-                      width: 50,
-                    ),
+                    color: Colors.black,
+                    width: 50,
+                  ),
                 ),
                 textInputType: TextInputType.text,
-                isPass: true,
-              ),
+                isPass: !_isPasswordVisible
+            ),
               SizedBox(height: 10.h),
               Padding(
                 padding: REdgeInsets.only(right: 20.w),

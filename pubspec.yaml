@@ -30,10 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  provider:
   flutter_screenutil:
   google_fonts:
   firebase_core:
-  cloud_firestore: ^4.8.0
+  cloud_firestore:
   firebase_auth:
   firebase_storage:
 

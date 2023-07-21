@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/app_style.dart';
-import 'package:grozziieapk/ui/create_label.dart';
+import 'package:grozziieapk/ui/created_label/create_label.dart';
 
 /*class DashboardScreen extends StatefulWidget {
 
@@ -370,7 +370,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateLabel(),));
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => CreateLabel(),));
             },
             icon: Image.asset('assets/icons/created_label_add_icon.png'),
           ),
