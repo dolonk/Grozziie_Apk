@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/ui/home_screen/home_screen.dart';
-import 'package:grozziieapk/ui/signUp_screen.dart';
-
-import '../app_style.dart';
-import '../resourcs/auth_methods.dart';
-import '../utils/utils.dart';
+import 'package:grozziieapk/presentation_layer/ui/login_section/signUp_screen.dart';
+import '../../../utils/app_style.dart';
+import '../../../utils/utils.dart';
+import '../home_screen/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -144,9 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isPasswordVisible
                         ? 'assets/icons/password_visible_icon.png'
                         : 'assets/icons/pass_icon.png',
-                      color: Colors.black,
-                      width: 50,
-                    ),
+                    color: Colors.black,
+                    width: 50,
+                  ),
                 ),
                 textInputType: TextInputType.text,
                 isPass: true,

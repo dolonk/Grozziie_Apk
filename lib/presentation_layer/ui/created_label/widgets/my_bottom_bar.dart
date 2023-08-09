@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyBottomAppBar{
-  static buildBottomAppBarButton(double screenWidth) {
+class MyBottomAppBar {
+  buildBottomAppBarButton(double screenWidth) {
     return BottomAppBar(
       child: Container(
         width: screenWidth,
