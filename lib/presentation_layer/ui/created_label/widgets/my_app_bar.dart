@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyAppBar{
-  static buildAppBar(BuildContext context) {
+class MyAppBar {
+  buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: const Color(0xffFFFFFF),
@@ -16,8 +15,8 @@ class MyAppBar{
         child: Text(
           '1/1 \n 45mm*30mm',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
-            fontSize: ScreenUtil().setSp(16),
-          ),
+                fontSize: ScreenUtil().setSp(16),
+              ),
           textAlign: TextAlign.center,
         ),
       ),

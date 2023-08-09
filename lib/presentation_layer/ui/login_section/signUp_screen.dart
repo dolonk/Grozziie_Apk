@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/ui/login_section/login_screen.dart';
 
-import '../../app_style.dart';
-import '../../resourcs/auth_methods.dart';
-import '../../utils/utils.dart';
+import '../../../domain_layer/resourcs/auth_methods.dart';
+import '../../../utils/app_style.dart';
+import '../../../utils/utils.dart';
+import 'login_screen.dart';
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

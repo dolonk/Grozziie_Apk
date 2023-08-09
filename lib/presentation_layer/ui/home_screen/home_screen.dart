@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/app_style.dart';
-import 'package:grozziieapk/ui/home_screen/print_screen.dart';
-import 'package:grozziieapk/ui/home_screen/shop_screen.dart';
-
+import 'package:grozziieapk/presentation_layer/ui/home_screen/print_screen.dart';
+import 'package:grozziieapk/presentation_layer/ui/home_screen/shop_screen.dart';
+import 'package:grozziieapk/utils/app_style.dart';
 import 'cart_screen.dart';
 import 'dashboard_screen.dart';
 
