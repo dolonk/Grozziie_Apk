@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_container_class.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/text_editing_provider.dart';
+import 'global_variable.dart';
 
-
-class TemplateContainer extends StatelessWidget {
+class TemplateContainer extends StatefulWidget {
   const TemplateContainer({super.key});
 
+  @override
+  State<TemplateContainer> createState() => _TemplateContainerState();
+}
+
+class _TemplateContainerState extends State<TemplateContainer> {
   @override
   Widget build(BuildContext context) {
     return Consumer<TextEditingProvider>(
@@ -14,142 +19,64 @@ class TemplateContainer extends StatelessWidget {
         double containerHeight = 300;
         double containerWidth = 400;
         return InkWell(
-          onTap: (){
+          onTap: () {
             textModel.setTextBorderWidgetFlag(false);
           },
-          child: Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                height: containerHeight,
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: const BorderRadius.all(Radius.circular(13)),
-                ),
-                child: Stack(
-                  children: [
-                    if (textModel.showTextEditingWidget)
-                      _buildTextEditingContainer(textModel, context)
-                      /*Positioned(
-                        left: textModel.textContainerX,
-                        top: textModel.textContainerY,
-                        child: GestureDetector(
-                          onPanUpdate: (details) {
-                            textModel.setTextContainerPosition(details.delta.dx, details.delta.dy);
-                          },
-                          onTapDown: (details) {
-                            textModel.showTextEditingContainerFlag = true;
-                            textModel.textBorderWidget = true;
-                          },
-                          onDoubleTap: (){
-                            textModel.showTextInputDialog(context);
-                          },
-                          child: Stack(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(5),
-                                width: textModel.textFieldWidth > 0 ? textModel.textFieldWidth : 1.0,
-                                constraints: const BoxConstraints(
-                                  minHeight: 40,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: textModel.textBorderWidget ? Border.all(color: Colors.blue, width: 2) :null,
-                                ),
-                                child: Text(
-                                  textModel.labelText,
-                                  style: TextStyle(
-                                    fontWeight: textModel.isBold ? FontWeight.bold : FontWeight.normal,
-                                    fontStyle: textModel.isItalic ? FontStyle.italic : FontStyle.normal,
-                                    decoration: textModel.isUnderline! ? TextDecoration.underline : null,
-                                    fontSize: textModel.textFontSize,
-                                  ),
-                                  textAlign: textModel.textAlignment,
-                                  maxLines: null,
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: GestureDetector(
-                                  onPanUpdate: textModel.handleResizeGesture,
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: textModel.textBorderWidget? Image.asset('assets/icons/zoom_icon.png'): null,
-                                  ),
-                                ),
-                              ),
-                            ],
+          child: Container(
+            height: containerHeight,
+            width: containerWidth,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.black),
+              borderRadius: const BorderRadius.all(Radius.circular(13)),
+            ),
+            child: Stack(
+              children: [
+                if (textModel.showTextEditingWidget)
+                  for (var i = 0; i < textCodes.length; i++)
+                    Positioned(
+                      left: textCodeOffsets[i].dx,
+                      top: textCodeOffsets[i].dy,
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          textCodeOffsets[i] = Offset(
+                          textCodeOffsets[i].dx + details.delta.dx,
+                          textCodeOffsets[i].dy + details.delta.dy,
+                          );
+                          setState(() {
+                          });
+                        },
+                        onTapDown: (details) {
+                          textModel.onTouchFunction(details);
+                          selectedTextCodeIndex = i;
+                          if (selectTimeTextScanInt[i] == 1) {
+                            textModel.setShowTextEditingContainerFlag(true);
+                          }
+                          setState(() {});
+                        },
+                        onDoubleTap: () {
+                          textModel.showTextInputDialog(
+                              selectedTextCodeIndex, context);
+                        },
+                        child: Transform.rotate(
+                          angle: -textContainerRotations[i],
+                          child: TextEditingContainerClass(
+                            textIndex: i,
+                            labelText: textCodes[i],
+                            isBold: updateTextBold[i],
+                            isItalic: updateTextItalic[i],
+                            isUnderline: updateTextUnderline[i],
+                            textAlignment: updateTextAlignment[i],
+                            textFontSize: updateTextFontSize[i],
                           ),
                         ),
-                      ),*/
-                  ],
-                ),
-              ),
+                      ),
+                    ),
+              ],
             ),
           ),
         );
       },
     );
   }
-
-
-  Widget _buildTextEditingContainer(TextEditingProvider textModel, BuildContext context) {
-    return Positioned(
-      left: textModel.textContainerX,
-      top: textModel.textContainerY,
-      child: GestureDetector(
-        onPanUpdate: (details) {
-          textModel.setTextContainerPosition(details.delta.dx, details.delta.dy);
-        },
-        onTapDown: (details) {
-          textModel.showTextEditingContainerFlag = true;
-          textModel.textBorderWidget = true;
-        },
-        onDoubleTap: () {
-          textModel.showTextInputDialog(context);
-        },
-        child: Stack(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(5),
-              width: textModel.textFieldWidth > 0 ? textModel.textFieldWidth : 1.0,
-              constraints: const BoxConstraints(
-                minHeight: 40,
-              ),
-              decoration: BoxDecoration(
-                border: textModel.textBorderWidget ? Border.all(color: Colors.blue, width: 2) : null,
-              ),
-              child: Text(
-                textModel.labelText,
-                style: TextStyle(
-                  fontWeight: textModel.isBold ? FontWeight.bold : FontWeight.normal,
-                  fontStyle: textModel.isItalic ? FontStyle.italic : FontStyle.normal,
-                  decoration: textModel.isUnderline! ? TextDecoration.underline : null,
-                  fontSize: textModel.textFontSize,
-                ),
-                textAlign: textModel.textAlignment,
-                maxLines: null,
-              ),
-            ),
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: GestureDetector(
-                onPanUpdate: textModel.handleResizeGesture,
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: textModel.textBorderWidget ? Image.asset('assets/icons/zoom_icon.png') : null,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
 }

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/teamplate_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/textediting_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_textediting_container.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/reuseable_class.dart';
@@ -15,9 +15,15 @@ double screenWidth = ScreenUtil().screenWidth;
 bool showTextEditingWidget = false;
 bool showTextEditingContainerFlag = false;
 
-class CreateLabel extends StatelessWidget {
+class CreateLabel extends StatefulWidget {
   const CreateLabel({Key? key}) : super(key: key);
 
+  @override
+  State<CreateLabel> createState() => _CreateLabelState();
+}
+
+class _CreateLabelState extends State<CreateLabel> {
+  TextEditingProvider textEditingProvider = TextEditingProvider();
   @override
   Widget build(BuildContext context) {
     print('build function 1');
@@ -42,7 +48,6 @@ class CreateLabel extends StatelessWidget {
       ),
     );
   }
-
 
   Widget buildOptionsContainer(BuildContext context, TextEditingProvider textModel) {
     return Stack(children: [
@@ -83,7 +88,6 @@ class CreateLabel extends StatelessWidget {
     ]);
   }
 
-
   Widget buildOptions(BuildContext context, TextEditingProvider textModel){
     return Container(
       height: 230.h,
@@ -97,6 +101,7 @@ class CreateLabel extends StatelessWidget {
               ReuseAbleClass().buildIconButton('assets/icons/text.png', 'Text', () {
                 textModel.setShowTextEditingContainerFlag(true);
                 textModel.setShowTextEditingWidget(true);
+                textModel.generateTextCode('Double Click Here', 1);
               }),
               ReuseAbleClass().buildIconButton('assets/icons/barcode.png', 'Barcode', () {}),
               ReuseAbleClass().buildIconButton('assets/icons/qrcode.png', 'QR Code', () {}),
@@ -120,11 +125,21 @@ class CreateLabel extends StatelessWidget {
               ReuseAbleClass().buildIconButton('assets/icons/time.png', 'Time', () {}),
               ReuseAbleClass().buildIconButton('assets/icons/shape.png', 'Shape', () {}),
               ReuseAbleClass().buildIconButton('assets/icons/line.png', 'Line', () {}),
+              ReuseAbleClass().buildIconButton('assets/icons/emoji_icon.png', 'Emoji', () {}),
             ],
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    textEditingProvider.inputFocusNode.dispose();
+    for (var controller in textEditingProvider.textControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
 }
