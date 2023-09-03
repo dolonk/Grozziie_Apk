@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReuseAbleClass{
+
   buildOptionRow(List<Widget> children) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -39,6 +40,35 @@ class ReuseAbleClass{
             ),
           ],
         ),
+      ),
+    );
+  }
+  Widget buildTextIonButton(
+      String imagePath, String label, VoidCallback onPressed) {
+    return SizedBox(
+      child: Column(
+        children: [
+          IconButton(
+            onPressed: onPressed,
+            icon: Image.asset(
+              imagePath,
+              width: 24.w,
+              height: 24.h,
+            ),
+            color: Colors.grey,
+          ),
+          SizedBox(height: 5.h),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(12),
+              color: Colors.black45,
+              fontFamily: 'Poppins-Regular',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

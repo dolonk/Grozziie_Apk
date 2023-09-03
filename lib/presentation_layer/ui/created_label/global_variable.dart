@@ -1,12 +1,12 @@
 
+import 'dart:core';
+import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+
 
 //Multiple Text  function variable
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-
-import '../../providers/text_editing_provider.dart';
-
 List<String> textCodes = [];
 List<Offset> textCodeOffsets = [];
 List<double> textContainerRotations = [];
@@ -24,15 +24,25 @@ List<Offset> scanCodeOffsets = [];
 bool imageBorderWidget = false;
 int selectedScanCodeIndex = 0;
 
-// Time Zone Variable
+// Multiple Time Date function Variable
 int selectedTimeCodeIndex = 0;
 List<int> selectTimeTextScanInt = [];
+DateFormat? selectedFormatDate;
+TimeOfDayFormat selectFormat = TimeOfDayFormat.h_colon_mm_space_a;
+TimeOfDay selectTime =  TimeOfDay.now();
+DateTime selectDate = DateTime.now();
 bool timeFormat = false;
 bool dateFormat = false;
 bool timeBorderWidget = false;
-late TimeOfDay selectTime;
-late TimeOfDayFormatD selectFormat;
-late DateTime selectDate;
+
+enum TimeOfDayFormat {
+  h_colon_mm_space_a,
+  h_colon_mm_colon_ss_space_a,
+  H_colon_mm,
+  H_colon_mm_colon_ss,
+  None,
+}
+
 
 // serial number
 int selectedSerialCodeIndex = 0;

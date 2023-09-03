@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grozziieapk/presentation_layer/providers/date_time_editing_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/text_editing_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/created_label.dart';
 import 'package:grozziieapk/presentation_layer/ui/login_section/splash_screen.dart';
@@ -25,8 +26,17 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
-        return ChangeNotifierProvider<TextEditingProvider>(
-          create: (_) => TextEditingProvider(),
+        return MultiProvider(
+          providers: [
+
+            ChangeNotifierProvider<TextEditingProvider>(
+              create: (_) => TextEditingProvider(),
+            ),
+
+            ChangeNotifierProvider<DateTimeProvider>(
+              create: (_) => DateTimeProvider(),
+            ),
+          ],
           child: MaterialApp(
             title: 'Grozziie',
             debugShowCheckedModeBanner: false,

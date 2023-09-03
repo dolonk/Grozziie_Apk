@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import '../ui/created_label/global_variable.dart';
 
 class TextEditingProvider extends ChangeNotifier {
@@ -18,8 +19,6 @@ class TextEditingProvider extends ChangeNotifier {
   bool showTextEditingWidget = false;
   bool showTextEditingContainerFlag = false;
   bool textBorderWidget = false;
-
-
 
   void setTextBorderWidgetFlag(bool flag) {
     textBorderWidget = flag;
@@ -51,7 +50,6 @@ class TextEditingProvider extends ChangeNotifier {
   }
 
   void onTouchFunction(TapDownDetails details) {
-    showTextEditingContainerFlag = true;
     textBorderWidget = true;
     notifyListeners();
   }
@@ -161,8 +159,8 @@ class TextEditingProvider extends ChangeNotifier {
       prefixNumber.add('');
       suffixNumber.add('');
       incrementNumber.add(0);
-    }
-    /*else if (textCodeFlag == 2) {
+    } /*
+    else if (textCodeFlag == 2) {
         textCodes.add(textValue);
         selectedTextCodeIndex = textCodes.length - 1;
         textBorderWidget = true;
@@ -178,7 +176,8 @@ class TextEditingProvider extends ChangeNotifier {
         prefixNumber.add('');
         suffixNumber.add('');
         incrementNumber.add(0);
-      } else if (textCodeFlag == 3) {
+      } */
+     else if (textCodeFlag == 3) {
         DateTime currentTime = DateTime.now();
         String formattedDateTime =
         DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
@@ -192,13 +191,13 @@ class TextEditingProvider extends ChangeNotifier {
         updateTextUnderline.add(false);
         updateTextAlignment.add(TextAlign.left);
         updateTextFontSize.add(15.0);
-        SelectTime_Text_Scan_Int.add(3);
+        selectTimeTextScanInt.add(3);
         textContainerRotations.add(0.0);
         updateTextWidthSize.add(200);
         prefixNumber.add('');
         suffixNumber.add('');
         incrementNumber.add(0);
-      } else if (textCodeFlag == 4) {
+      }/* else if (textCodeFlag == 4) {
         textCodes.add('01');
         selectedTextCodeIndex = textCodes.length-1;
         textBorderWidget = true;
@@ -290,13 +289,12 @@ class TextEditingProvider extends ChangeNotifier {
           },
           child: Dialog(
             alignment: Alignment.bottomCenter,
-            insetPadding:
-                 REdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            insetPadding: REdgeInsets.symmetric(vertical: 5, horizontal: 5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Container(
-              margin:  REdgeInsets.all(5),
+              margin: REdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.r)),
                 border: Border.all(color: Colors.black12),
@@ -352,10 +350,4 @@ class TextEditingProvider extends ChangeNotifier {
   }
 }
 
-enum TimeOfDayFormatD {
-  h_colon_mm_space_a,
-  h_colon_mm_colon_ss_space_a,
-  H_colon_mm,
-  H_colon_mm_colon_ss,
-  None,
-}
+
