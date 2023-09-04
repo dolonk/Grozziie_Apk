@@ -333,4 +333,5 @@ class TextEditingProvider extends ChangeNotifier {
       }
     });
   }
+
 }

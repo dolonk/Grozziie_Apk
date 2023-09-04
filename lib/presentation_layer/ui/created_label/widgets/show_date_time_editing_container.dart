@@ -39,15 +39,7 @@ class ShowDateTimeEditingContainer extends StatelessWidget {
                       [
                         ReuseAbleClass().buildIconButton(
                             'assets/icons/template.png', 'Template', () {
-                          /*setState(() {
-                        showTextEditingContainerFlag = false;
-                        showBarcodeContainerFlag = false;
-                        showQrcodeContainerFlag = false;
-                        showTableContainerFlag = false;
-                        showImageContainerFlag = false;
-                        showDateContainerFlag = false;
-                        showEmojiContainerFlag = false;
-                      });*/
+                              textModel.setTextBorderWidgetFlag(false);
                           dateTimeModel.setDateTimeContainerFlag(false);
                         }),
                         Image.asset('assets/images/line_c.png'),

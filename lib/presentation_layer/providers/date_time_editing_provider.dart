@@ -15,10 +15,11 @@ enum TimeOfDayFormat {
 }
 
 class DateTimeProvider with ChangeNotifier {
-  DateFormat? selectedFormatDate;
+
+  DateFormat? selectedFormatDate = DateFormat('MMMM d, yyyy');
+  DateTime selectDate = DateTime.now();
   TimeOfDayFormat selectFormat = TimeOfDayFormat.h_colon_mm_space_a;
   TimeOfDay selectTime = TimeOfDay.now();
-  DateTime selectDate = DateTime.now();
 
   bool timeFormat = false;
   bool dateFormat = false;
@@ -38,7 +39,6 @@ class DateTimeProvider with ChangeNotifier {
     showStyleContainer = flag;
     notifyListeners();
   }
-
 
   void showDatePickerDialog(BuildContext context) {
     showModalBottomSheet(
@@ -236,6 +236,8 @@ class DateTimeProvider with ChangeNotifier {
             case 3:
               selectedFormatDate = null;
               break;
+            default:
+              selectedFormatDate = DateFormat('MMMM d, yyyy');
           }
           notifyListeners();
         },
