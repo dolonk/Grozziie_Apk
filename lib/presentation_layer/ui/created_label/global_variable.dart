@@ -24,24 +24,12 @@ List<Offset> scanCodeOffsets = [];
 bool imageBorderWidget = false;
 int selectedScanCodeIndex = 0;
 
+
 // Multiple Time Date function Variable
 int selectedTimeCodeIndex = 0;
 List<int> selectTimeTextScanInt = [];
-DateFormat? selectedFormatDate;
-TimeOfDayFormat selectFormat = TimeOfDayFormat.h_colon_mm_space_a;
-TimeOfDay selectTime =  TimeOfDay.now();
-DateTime selectDate = DateTime.now();
-bool timeFormat = false;
-bool dateFormat = false;
-bool timeBorderWidget = false;
-
-enum TimeOfDayFormat {
-  h_colon_mm_space_a,
-  h_colon_mm_colon_ss_space_a,
-  H_colon_mm,
-  H_colon_mm_colon_ss,
-  None,
-}
+bool showDateContainerWidget = false;
+bool showDateContainerFlag = false;
 
 
 // serial number

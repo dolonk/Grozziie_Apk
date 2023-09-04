@@ -63,7 +63,6 @@ class TextEditingProvider extends ChangeNotifier {
       updateTextBold[selectedTextCodeIndex] = false;
     }
     undoStack.add(previousText);
-    applyChanges();
     notifyListeners();
   }
 
@@ -76,7 +75,7 @@ class TextEditingProvider extends ChangeNotifier {
       updateTextUnderline[selectedTextCodeIndex] = false;
     }
     undoStack.add(previousText);
-    applyChanges();
+    ;
     notifyListeners();
   }
 
@@ -89,7 +88,6 @@ class TextEditingProvider extends ChangeNotifier {
       updateTextItalic[selectedTextCodeIndex] = false;
     }
     undoStack.add(previousText);
-    applyChanges();
     notifyListeners();
   }
 
@@ -98,7 +96,6 @@ class TextEditingProvider extends ChangeNotifier {
     textAlignment = alignment;
     updateTextAlignment[selectedTextCodeIndex] = alignment;
     undoStack.add(previousText);
-    applyChanges();
     notifyListeners();
   }
 
@@ -111,20 +108,6 @@ class TextEditingProvider extends ChangeNotifier {
       updateTextFontSize[selectedTextCodeIndex] = 15;
     }
     undoStack.add(previousText);
-    applyChanges();
-    notifyListeners();
-  }
-
-  void applyLabelChanges(String label) {
-    final previousText = textEditingController.text;
-    labelText = label;
-    undoStack.add(previousText);
-    applyChanges();
-    notifyListeners();
-  }
-
-  void applyChanges() {
-    currentText = labelText;
     notifyListeners();
   }
 
@@ -159,7 +142,8 @@ class TextEditingProvider extends ChangeNotifier {
       prefixNumber.add('');
       suffixNumber.add('');
       incrementNumber.add(0);
-    } /*
+    }
+    /*
     else if (textCodeFlag == 2) {
         textCodes.add(textValue);
         selectedTextCodeIndex = textCodes.length - 1;
@@ -177,27 +161,28 @@ class TextEditingProvider extends ChangeNotifier {
         suffixNumber.add('');
         incrementNumber.add(0);
       } */
-     else if (textCodeFlag == 3) {
-        DateTime currentTime = DateTime.now();
-        String formattedDateTime =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
-        String completeTextValue = formattedDateTime;
-        textCodes.add(completeTextValue);
-        selectedTextCodeIndex = textCodes.length - 1;
-        textBorderWidget = true;
-        textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
-        updateTextBold.add(false);
-        updateTextItalic.add(false);
-        updateTextUnderline.add(false);
-        updateTextAlignment.add(TextAlign.left);
-        updateTextFontSize.add(15.0);
-        selectTimeTextScanInt.add(3);
-        textContainerRotations.add(0.0);
-        updateTextWidthSize.add(200);
-        prefixNumber.add('');
-        suffixNumber.add('');
-        incrementNumber.add(0);
-      }/* else if (textCodeFlag == 4) {
+    else if (textCodeFlag == 3) {
+      DateTime currentTime = DateTime.now();
+      String formattedDateTime =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
+      String completeTextValue = formattedDateTime;
+      textCodes.add(completeTextValue);
+      selectedTextCodeIndex = textCodes.length - 1;
+      textBorderWidget = true;
+      textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
+      updateTextBold.add(false);
+      updateTextItalic.add(false);
+      updateTextUnderline.add(false);
+      updateTextAlignment.add(TextAlign.left);
+      updateTextFontSize.add(15.0);
+      selectTimeTextScanInt.add(3);
+      textContainerRotations.add(0.0);
+      updateTextWidthSize.add(200);
+      prefixNumber.add('');
+      suffixNumber.add('');
+      incrementNumber.add(0);
+    }
+    /* else if (textCodeFlag == 4) {
         textCodes.add('01');
         selectedTextCodeIndex = textCodes.length-1;
         textBorderWidget = true;
@@ -349,5 +334,3 @@ class TextEditingProvider extends ChangeNotifier {
     });
   }
 }
-
-

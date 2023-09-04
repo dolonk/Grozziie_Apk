@@ -11,7 +11,7 @@ import '../../../utils/reuseable_class.dart';
 import '../../providers/date_time_editing_provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
-import 'global_variable.dart' as flutter_time;
+import '../../providers/date_time_editing_provider.dart' as flutter_timer;
 
 
 double screenWidth = ScreenUtil().screenWidth;
@@ -31,10 +31,10 @@ class _CreateLabelState extends State<CreateLabel> {
 
   @override
   void initState() {
-    selectTime = TimeOfDay.now();
-    selectFormat = flutter_time.TimeOfDayFormat.h_colon_mm_space_a;
-    selectDate = DateTime.now();
-    selectedFormatDate = DateFormat.yMMMMd();
+    dateTimeProvider.selectTime = TimeOfDay.now();
+    dateTimeProvider.selectFormat = flutter_timer.TimeOfDayFormat.h_colon_mm_space_a;
+    dateTimeProvider.selectDate = DateTime.now();
+    dateTimeProvider.selectedFormatDate = DateFormat.yMMMMd();
 
     super.initState();
   }
