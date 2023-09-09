@@ -25,6 +25,19 @@ bool imageBorderWidget = false;
 int selectedScanCodeIndex = 0;
 
 
+// Multiple Barcode function variable
+List<String> barCodes = [];
+List<Offset> barCodeOffsets = [];
+List<double> barCodesContainerRotations =[] ;
+List<double> updateBarcodeWidth = [];
+List<double> updateBarcodeHeight = [];
+bool showBarData = true;
+bool isSupportedType = true;
+int selectedBarCodeIndex = 0;
+
+
+
+
 // Multiple Time Date function Variable
 int selectedTimeCodeIndex = 0;
 List<int> selectTimeTextScanInt = [];

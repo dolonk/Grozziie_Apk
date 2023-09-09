@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../ui/created_label/global_variable.dart';
 
+
 class TextEditingProvider extends ChangeNotifier {
   String labelText = 'Double click here ';
   final TextEditingController textEditingController = TextEditingController();

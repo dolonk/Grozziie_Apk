@@ -38,6 +38,8 @@ dependencies:
   firebase_auth:
   firebase_storage:
   intl:
+  flutter_picker:
+  barcode_widget:
 
 
   # The following adds the Cupertino Icons font to your application.
