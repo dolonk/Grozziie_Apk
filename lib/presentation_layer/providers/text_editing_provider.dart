@@ -36,6 +36,14 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void movingWidget(DragUpdateDetails details, int textIndex){
+    textCodeOffsets[textIndex] = Offset(
+      textCodeOffsets[textIndex].dx + details.delta.dx,
+      textCodeOffsets[textIndex].dy + details.delta.dy,
+    );
+    notifyListeners();
+  }
+
   void handleResizeGesture(DragUpdateDetails details, int textIndex) {
     if (selectedTextCodeIndex == textIndex) {
       final newWidth =
@@ -129,9 +137,9 @@ class TextEditingProvider extends ChangeNotifier {
   void generateTextCode(String textValue, int textCodeFlag) {
     if (textCodeFlag == 1) {
       textCodes.add('Double Click here');
+      textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
       selectedTextCodeIndex = textCodes.length - 1;
       textBorderWidget = true;
-      textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
       updateTextBold.add(false);
       updateTextItalic.add(false);
       updateTextUnderline.add(false);
@@ -255,7 +263,6 @@ class TextEditingProvider extends ChangeNotifier {
   bool isSerialTextCleared = true;
   Map<int, TextEditingController> textControllers = {};
   Map<int, TextEditingController> serialTextControllers = {};
-  FocusNode inputFocusNode = FocusNode();
 
   void showTextInputDialog(int selectIndex, BuildContext context) {
     if (!textControllers.containsKey(selectIndex)) {
@@ -334,5 +341,6 @@ class TextEditingProvider extends ChangeNotifier {
       }
     });
   }
+
 
 }

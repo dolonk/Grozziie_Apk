@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
+FocusNode inputFocusNode = FocusNode();
 
 //Multiple Text  function variable
 List<String> textCodes = [];
@@ -31,9 +32,8 @@ List<Offset> barCodeOffsets = [];
 List<double> barCodesContainerRotations =[] ;
 List<double> updateBarcodeWidth = [];
 List<double> updateBarcodeHeight = [];
-bool showBarData = true;
-bool isSupportedType = true;
 int selectedBarCodeIndex = 0;
+bool isSupportedType = true;
 
 
 

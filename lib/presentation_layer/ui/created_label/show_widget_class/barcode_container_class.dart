@@ -19,44 +19,31 @@ class BarcodeContainerClass extends StatelessWidget {
       builder: (context, barcodeModel, child) {
         return Stack(
           children: [
-            if (isSupportedType)
-              Container(
-                margin: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: barcodeModel.barcodeBorderWidget
-                        ? Border.all(
-                            color: selectedBarCodeIndex == brIndex
-                                ? Colors.blue
-                                : Colors.transparent,
-                            width: 2.0)
-                        : null),
-                child: BarcodeWidget(
-                  barcode: getBarcode(),
-                  data: barcodeData,
-                  drawText: showBarData,
-                  color: Colors.black,
-                  width: updateBarcodeWidth[brIndex ?? 0],
-                  height: updateBarcodeHeight[brIndex ?? 0],
-                ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: barcodeModel.barcodeBorderWidget
+                      ? Border.all(
+                          color: selectedBarCodeIndex == brIndex
+                              ? Colors.blue
+                              : Colors.transparent,
+                          width: 2.0)
+                      : null),
+              child: !isSupportedType
+                  ? UnsupportedBarcode(
+                barcodeWidth: updateBarcodeWidth[brIndex ?? 0],
+                barcodeHeight: updateBarcodeHeight[brIndex ?? 0],
+                barcodeData: barcodeData,
+              )
+                  : BarcodeWidget(
+                barcode: barcodeModel.getBarcode(encodingType!),
+                data: barcodeData,
+                drawText: barcodeModel.showBarData,
+                color: Colors.black,
+                width: updateBarcodeWidth[brIndex ?? 0],
+                height: updateBarcodeHeight[brIndex ?? 0],
               ),
-            if (!isSupportedType)
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                decoration: BoxDecoration(
-                    border: barcodeModel.barcodeBorderWidget
-                        ? Border.all(
-                            color: selectedBarCodeIndex == brIndex
-                                ? Colors.blue
-                                : Colors.transparent,
-                            width: 2.0)
-                        : null),
-                child: UnsupportedBarcode(
-                  barcodeWidth: barcodeModel.barcodeWidth,
-                  barcodeHeight: barcodeModel.barcodeHeight,
-                  barcodeData: barcodeData,
-                ),
-              ),
+            ),
             Positioned(
               right: 0,
               bottom: 0,
@@ -82,68 +69,6 @@ class BarcodeContainerClass extends StatelessWidget {
     );
   }
 
-  final codeBarRegex = RegExp(r'^[0-9]+$');
-
-  final code39Regex = RegExp(r'^[0-9A-Za-z \-\.$/+%*]+$');
-
-  Barcode getBarcode() {
-    switch (encodingType) {
-      case 'Code128':
-        isSupportedType = true;
-        return Barcode.code128();
-      case 'UPC-A':
-        if (barcodeData.length == 12) {
-          isSupportedType = true;
-          return Barcode.upcA();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      case 'EAN-8':
-        if (barcodeData.length == 8) {
-          isSupportedType = true;
-          return Barcode.ean8();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      case 'EAN-13':
-        if (barcodeData.length == 13) {
-          isSupportedType = true;
-          return Barcode.ean13();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      case 'Code93':
-        if (code39Regex.hasMatch(barcodeData)) {
-          isSupportedType = true;
-          return Barcode.code93();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      case 'Code39':
-        if (code39Regex.hasMatch(barcodeData)) {
-          isSupportedType = true;
-          return Barcode.code39();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      case 'CodeBar':
-        if (codeBarRegex.hasMatch(barcodeData)) {
-          isSupportedType = true;
-          return Barcode.codabar();
-        } else {
-          isSupportedType = false;
-          return Barcode.code128();
-        }
-      default:
-        isSupportedType = false;
-        return Barcode.code128();
-    }
-  }
 }
 
 class UnsupportedBarcode extends StatelessWidget {

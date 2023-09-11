@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/teamplate_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_text_editing_container.dart';
 import 'package:intl/intl.dart';
@@ -31,17 +33,17 @@ class _CreateLabelState extends State<CreateLabel> {
 
   @override
   void initState() {
+    inputFocusNode = FocusNode();
     dateTimeProvider.selectTime = TimeOfDay.now();
     dateTimeProvider.selectFormat = flutter_timer.TimeOfDayFormat.h_colon_mm_space_a;
     dateTimeProvider.selectDate = DateTime.now();
     dateTimeProvider.selectedFormatDate = DateFormat.yMMMMd();
-
     super.initState();
   }
 
   @override
   void dispose() {
-    textEditingProvider.inputFocusNode.dispose();
+    inputFocusNode.dispose();
     for (var controller in textEditingProvider.textControllers.values) {
       controller.dispose();
     }
@@ -56,6 +58,11 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<TextEditingProvider>(
           create: (_) => TextEditingProvider(),
         ),
+
+        ChangeNotifierProvider<BarcodeProvider>(
+          create: (_) => BarcodeProvider(),
+        ),
+
         ChangeNotifierProvider<DateTimeProvider>(
           create: (_) => DateTimeProvider(),
         ),
@@ -67,19 +74,24 @@ class _CreateLabelState extends State<CreateLabel> {
           builder: (context, textModel, _) {
             return Consumer<DateTimeProvider>(
               builder: (context, dateTimeModel, _) {
-                return Column(
-                  children: [
-                    const Expanded(child: TemplateContainer()),
-                    if (textModel.showTextEditingContainerFlag)
-                      const Expanded(child: ShowTextEditingContainer())
-                    else if (showDateContainerFlag)
-                      const Expanded(child: ShowDateTimeEditingContainer())
-                    else
-                      Expanded(
-                        child: buildOptionsContainer(context, textModel,dateTimeModel),
-                      ),
-                  ],
-                );
+                return Consumer<BarcodeProvider>(
+                  builder: (context, barcodeModel, child) {
+                  return Column(
+                    children: [
+                      const Expanded(child: TemplateContainer()),
+                      if (textModel.showTextEditingContainerFlag)
+                        const Expanded(child: ShowTextEditingContainer())
+                      else if (barcodeModel.showBarcodeContainerFlag)
+                        const Expanded(child: ShowBarcodeContainer())
+                      else if (showDateContainerFlag)
+                          const Expanded(child: ShowDateTimeEditingContainer())
+                        else
+                          Expanded(
+                            child: buildOptionsContainer(context, textModel, dateTimeModel, barcodeModel),
+                          ),
+                    ],
+                  );
+                },);
               },
             );
           },
@@ -91,7 +103,7 @@ class _CreateLabelState extends State<CreateLabel> {
   }
 
   Widget buildOptionsContainer(
-      BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel) {
+      BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel, BarcodeProvider barcodeModel) {
     return Stack(children: [
       Container(
         padding: REdgeInsets.only(bottom: 30.h),
@@ -126,7 +138,7 @@ class _CreateLabelState extends State<CreateLabel> {
             SizedBox(height: 10.h),
             Expanded(
               child: SingleChildScrollView(
-                child: buildOptions(context, textModel,  dateTimeModel),
+                child: buildOptions(context, textModel,  dateTimeModel, barcodeModel),
               ),
             ),
           ],
@@ -135,7 +147,7 @@ class _CreateLabelState extends State<CreateLabel> {
     ]);
   }
 
-  Widget buildOptions(BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel) {
+  Widget buildOptions(BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel, BarcodeProvider barcodeModel) {
     return Container(
       height: 230.h,
       width: screenWidth,
@@ -152,7 +164,11 @@ class _CreateLabelState extends State<CreateLabel> {
                 textModel.generateTextCode('Double Click Here', 1);
               }),
               ReuseAbleClass().buildIconButton(
-                  'assets/icons/barcode.png', 'Barcode', () {}),
+                  'assets/icons/barcode.png', 'Barcode', () {
+                    barcodeModel.setShowBarcodeWidget(true);
+                   barcodeModel.setShowBarcodeContainerFlag(true);
+                   barcodeModel.generateBarCode('1234', 1);
+              }),
               ReuseAbleClass()
                   .buildIconButton('assets/icons/qrcode.png', 'QR Code', () {}),
               ReuseAbleClass()

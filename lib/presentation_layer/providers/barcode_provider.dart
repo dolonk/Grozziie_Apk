@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../ui/created_label/global_variable.dart';
 
 class BarcodeProvider extends ChangeNotifier {
-  String barcodeData = '1234';
+
   double barcodeWidth = 100.0;
   double barcodeHeight = 80.0;
   double minBarcodeWidth = 80.0;
@@ -19,8 +19,11 @@ class BarcodeProvider extends ChangeNotifier {
   bool barcodeBorderWidget = false;
   bool showBarData = true;
   bool isBarcodeTextCleared = true;
+
   String encodingType = 'Code128';
   String errorMessage = "";
+  String barcodeData = '1234';
+
   final List<String> supportedEncodingTypes = [
     'Code128',
     'UPC-A',
@@ -30,6 +33,7 @@ class BarcodeProvider extends ChangeNotifier {
     'Code39',
     'CodeBar',
   ];
+
 
   void setShowBarcodeContainerFlag(bool flag) {
     showBarcodeContainerFlag = flag;
@@ -43,6 +47,14 @@ class BarcodeProvider extends ChangeNotifier {
 
   void setBarcodeBorderWidget(bool flag) {
     barcodeBorderWidget = flag;
+    notifyListeners();
+  }
+
+  void movingWidget(DragUpdateDetails details, int index){
+    barCodeOffsets[index] = Offset(
+      barCodeOffsets[index].dx + details.delta.dx,
+      barCodeOffsets[index].dy + details.delta.dy,
+    );
     notifyListeners();
   }
 
@@ -65,55 +77,84 @@ class BarcodeProvider extends ChangeNotifier {
 
   void onTouchFunction(TapDownDetails details) {
     barcodeBorderWidget = true;
+    showBarcodeContainerFlag = true;
     notifyListeners();
   }
 
-  void showBarcodeDataSwitch(bool flag) {
-    showBarData = flag;
+  void showBarcodeDataSwitch() {
+    showBarData = !showBarData;
     notifyListeners();
   }
 
-  checkDataLength(String encodingType) {
+  final codeBarRegex = RegExp(r'^[0-9]+$');
+
+  final code39Regex = RegExp(r'^[0-9A-Za-z \-\.$/+%*]+$');
+
+  Barcode getBarcode(String encodingType) {
     switch (encodingType) {
       case 'Code128':
         isSupportedType = true;
         return Barcode.code128();
       case 'UPC-A':
-        isSupportedType = true;
-        return Barcode.upcA();
+        if (barcodeData.length == 12) {
+          isSupportedType = true;
+          return Barcode.upcA();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       case 'EAN-8':
-        isSupportedType = true;
-        return Barcode.ean8(drawSpacers: false);
+        if (barcodeData.length == 8) {
+          isSupportedType = true;
+          return Barcode.ean8();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       case 'EAN-13':
-        isSupportedType = true;
-        return Barcode.ean13(drawEndChar: false);
+        if (barcodeData.length == 13) {
+          isSupportedType = true;
+          return Barcode.ean13();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       case 'Code93':
-        isSupportedType = true;
-        return Barcode.code93();
+        if (code39Regex.hasMatch(barcodeData)) {
+          isSupportedType = true;
+          return Barcode.code93();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       case 'Code39':
-        isSupportedType = true;
-        return Barcode.code39();
+        if (code39Regex.hasMatch(barcodeData)) {
+          isSupportedType = true;
+          return Barcode.code39();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       case 'CodeBar':
-        isSupportedType = true;
-        return Barcode.codabar();
+        if (codeBarRegex.hasMatch(barcodeData)) {
+          isSupportedType = true;
+          return Barcode.codabar();
+        } else {
+          isSupportedType = false;
+          return Barcode.code128();
+        }
       default:
         isSupportedType = false;
         return Barcode.code128();
     }
   }
 
-  void setSelectedType(String value) {
-    encodingType = value;
-    errorMessage = '';
+
+  void setEncodingType(String newType) {
+    encodingType = newType;
+    getBarcode(newType);
     notifyListeners();
   }
-
-  void updateErrorMessage(String value) {
-    errorMessage =
-        checkDataLength(value) ? '' : 'Invalid data length for $value';
-    notifyListeners();
-  }
-
 
   void rotationFunction() {
     if (barCodesContainerRotations[selectedBarCodeIndex] == 0.0) {
@@ -227,19 +268,19 @@ class BarcodeProvider extends ChangeNotifier {
     if (barCodeFlag == 1) {
       barCodes.add('1234');
       barCodeOffsets.add(Offset(0, (barCodes.length * 5).toDouble()));
-      barCodesContainerRotations.add(0);
       selectedBarCodeIndex = barCodes.length - 1;
       barcodeBorderWidget = true;
       updateBarcodeWidth.add(100);
       updateBarcodeHeight.add(80);
+      barCodesContainerRotations.add(0);
     } else if (barCodeFlag == 2) {
-      barCodes.add('$barcodeValue ${barCodes.length + 1}');
+      barCodes.add('1234');
       barCodeOffsets.add(Offset(0, (barCodes.length * 5).toDouble()));
-      barCodesContainerRotations.add(0);
       selectedBarCodeIndex = barCodes.length - 1;
       barcodeBorderWidget = true;
       updateBarcodeWidth.add(100);
       updateBarcodeHeight.add(80);
+      barCodesContainerRotations.add(0);
     }
     notifyListeners();
   }
