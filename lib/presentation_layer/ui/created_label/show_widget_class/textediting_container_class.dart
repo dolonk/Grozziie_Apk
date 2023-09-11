@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../global_variable.dart';
 
-class TextEditingContainerClass extends StatefulWidget {
+
+// ignore: must_be_immutable
+class TextEditingContainerClass extends StatelessWidget {
   final String labelText;
   bool isBold;
   bool isItalic;
@@ -12,8 +14,6 @@ class TextEditingContainerClass extends StatefulWidget {
   TextAlign textAlignment;
   double textFontSize;
   int? textIndex;
-
-  //bool? textIndex;
 
   TextEditingContainerClass({
     Key? key,
@@ -27,20 +27,14 @@ class TextEditingContainerClass extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TextEditingContainerClassState createState() =>
-      _TextEditingContainerClassState();
-}
-
-class _TextEditingContainerClassState extends State<TextEditingContainerClass> {
-  @override
   Widget build(BuildContext context) {
     return Consumer<TextEditingProvider>(
       builder: (context, textModel, child) {
         return Stack(
           children: [
             Container(
-              width: updateTextWidthSize[widget.textIndex!] > 0
-                  ?  updateTextWidthSize[widget.textIndex!]
+              width: updateTextWidthSize[textIndex!] > 0
+                  ? updateTextWidthSize[textIndex!]
                   : 1.0,
               margin: const EdgeInsets.all(5),
               constraints: const BoxConstraints(
@@ -49,27 +43,23 @@ class _TextEditingContainerClassState extends State<TextEditingContainerClass> {
               decoration: BoxDecoration(
                 border: textModel.textBorderWidget
                     ? Border.all(
-                        color:
-                            selectedTextCodeIndex == widget.textIndex
-                                ? Colors.blue
-                                : Colors.transparent,
+                        color: selectedTextCodeIndex == textIndex
+                            ? Colors.blue
+                            : Colors.transparent,
                         width: 2.0,
                       )
                     : null,
                 // borderRadius: BorderRadius.only(bottomRight: Radius.circular(15))
               ),
               child: Text(
-                widget.labelText,
+                labelText,
                 style: TextStyle(
-                  fontWeight:
-                      widget.isBold ? FontWeight.bold : FontWeight.normal,
-                  fontStyle:
-                      widget.isItalic ? FontStyle.italic : FontStyle.normal,
-                  decoration:
-                      widget.isUnderline ? TextDecoration.underline : null,
-                  fontSize: widget.textFontSize,
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
+                  decoration: isUnderline ? TextDecoration.underline : null,
+                  fontSize: textFontSize,
                 ),
-                textAlign: widget.textAlignment,
+                textAlign: textAlignment,
                 maxLines: null,
               ),
             ),
@@ -78,10 +68,10 @@ class _TextEditingContainerClassState extends State<TextEditingContainerClass> {
               bottom: 0,
               child: GestureDetector(
                 onPanUpdate: (details) {
-                  textModel.handleResizeGesture(details, widget.textIndex!);
+                  textModel.handleResizeGesture(details, textIndex!);
                 },
                 child: Visibility(
-                  visible: selectedTextCodeIndex == widget.textIndex
+                  visible: selectedTextCodeIndex == textIndex
                       ? textModel.textBorderWidget
                       : false,
                   child: SizedBox(

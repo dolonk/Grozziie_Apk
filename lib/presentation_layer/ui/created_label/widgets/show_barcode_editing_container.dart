@@ -9,14 +9,9 @@ import '../created_label.dart';
 import '../global_variable.dart';
 import '../show_widget_class/barcode_container_class.dart';
 
-class ShowBarcodeContainer extends StatefulWidget {
+class ShowBarcodeContainer extends StatelessWidget {
   const ShowBarcodeContainer({super.key});
 
-  @override
-  State<ShowBarcodeContainer> createState() => _ShowBarcodeContainerState();
-}
-
-class _ShowBarcodeContainerState extends State<ShowBarcodeContainer> {
   @override
   Widget build(BuildContext context) {
     return Consumer<BarcodeProvider>(
@@ -116,36 +111,42 @@ class _ShowBarcodeContainerState extends State<ShowBarcodeContainer> {
                                   style: bodySmall,
                                 ),
                                 SizedBox(width: 30.w),
-                                Container(
-                                  height: 35.h,
-                                  width: 230.w,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8.r))),
-                                  child:EncodingTypePicker(
-                                    selectedType: barcodeModel.encodingType,
-                                    supportedTypes: barcodeModel.supportedEncodingTypes,
-                                    onTypeChanged: (value) {
-                                      setState(() {
-                                        barcodeModel.encodingType = value;
-                                        barcodeModel.errorMessage =
-                                        ""; // Reset error message when the encoding type changes
-                                      });
-                                    },
-                                    onConfirm: (value) {
-                                      setState(() {
-                                        barcodeModel.encodingType = value;
-                                         barcodeModel.setEncodingType(value);
-                                        if (!isSupportedType) {
-                                          barcodeModel.errorMessage = 'Invalid data length for $value';
-                                        } else {
-                                          barcodeModel.errorMessage = "";
-                                        }
-
-                                      });
-                                    },
-                                  ),
+                                StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return Container(
+                                      height: 35.h,
+                                      width: 230.w,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.r))),
+                                      child: EncodingTypePicker(
+                                        selectedType: barcodeModel.encodingType,
+                                        supportedTypes:
+                                            barcodeModel.supportedEncodingTypes,
+                                        onTypeChanged: (value) {
+                                          setState(() {
+                                            barcodeModel.encodingType = value;
+                                            barcodeModel.errorMessage =
+                                                ""; // Reset error message when the encoding type changes
+                                          });
+                                        },
+                                        onConfirm: (value) {
+                                          setState(() {
+                                            barcodeModel.encodingType = value;
+                                            barcodeModel.setEncodingType(value);
+                                            if (!isSupportedType) {
+                                              barcodeModel.errorMessage =
+                                                  'Invalid data length for $value';
+                                            } else {
+                                              barcodeModel.errorMessage = "";
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -168,9 +169,10 @@ class _ShowBarcodeContainerState extends State<ShowBarcodeContainer> {
                                           : Colors.grey,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: barcodeModel.showBarData
-                                          ? MainAxisAlignment.end
-                                          : MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          barcodeModel.showBarData
+                                              ? MainAxisAlignment.end
+                                              : MainAxisAlignment.start,
                                       children: [
                                         Container(
                                           width: 24,

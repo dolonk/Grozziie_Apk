@@ -5,6 +5,8 @@ import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:provider/provider.dart';
 import '../global_variable.dart';
 
+
+// ignore: must_be_immutable
 class BarcodeContainerClass extends StatelessWidget {
   final String barcodeData;
   final String? encodingType;
@@ -31,18 +33,18 @@ class BarcodeContainerClass extends StatelessWidget {
                       : null),
               child: !isSupportedType
                   ? UnsupportedBarcode(
-                barcodeWidth: updateBarcodeWidth[brIndex ?? 0],
-                barcodeHeight: updateBarcodeHeight[brIndex ?? 0],
-                barcodeData: barcodeData,
-              )
+                      barcodeWidth: updateBarcodeWidth[brIndex ?? 0],
+                      barcodeHeight: updateBarcodeHeight[brIndex ?? 0],
+                      barcodeData: barcodeData,
+                    )
                   : BarcodeWidget(
-                barcode: barcodeModel.getBarcode(encodingType!),
-                data: barcodeData,
-                drawText: barcodeModel.showBarData,
-                color: Colors.black,
-                width: updateBarcodeWidth[brIndex ?? 0],
-                height: updateBarcodeHeight[brIndex ?? 0],
-              ),
+                      barcode: barcodeModel.getBarcode(encodingType!),
+                      data: barcodeData,
+                      drawText: barcodeModel.showBarData,
+                      color: Colors.black,
+                      width: updateBarcodeWidth[brIndex ?? 0],
+                      height: updateBarcodeHeight[brIndex ?? 0],
+                    ),
             ),
             Positioned(
               right: 0,
@@ -68,9 +70,9 @@ class BarcodeContainerClass extends StatelessWidget {
       },
     );
   }
-
 }
 
+// ignore: must_be_immutable
 class UnsupportedBarcode extends StatelessWidget {
   final double barcodeWidth;
   final double barcodeHeight;
