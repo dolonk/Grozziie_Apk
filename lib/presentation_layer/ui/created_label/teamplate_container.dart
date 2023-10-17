@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/date_time_editing_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/barcode_container_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/qrcode_container_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/show_table_editing_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_container_class.dart';
 import 'package:provider/provider.dart';
 import '../../providers/text_editing_provider.dart';
@@ -25,32 +29,51 @@ class _TemplateContainerState extends State<TemplateContainer> {
           builder: (context, dateTimeModel, _) {
             return Consumer<BarcodeProvider>(
               builder: (context, barcodeModel, child) {
-                return InkWell(
-                  onTap: () {
-                    textModel.setTextBorderWidgetFlag(false);
+                return Consumer<QrCodeProvider>(
+                  builder: (context, qrCodeModel, child) {
+                    return Consumer<TableProvider>(
+                      builder: (context, tableModel, child) {
+                        return InkWell(
+                          onTap: () {
+                            textModel.setTextBorderWidgetFlag(false);
+                          },
+                          child: Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(13)),
+                            ),
+                            child: Stack(
+                              children: [
+
+                                if (showTextEditingWidget ||
+                                    showDateContainerWidget)
+                                  for (var i = 0; i < textCodes.length; i++)
+                                    textDateWidgetModel(
+                                        i, textModel, dateTimeModel),
+
+                                if (showBarcodeWidget)
+                                  for (var i = 0; i < barCodes.length; i++)
+                                    barcodeWidgetModel(i, barcodeModel),
+
+                                if (showQrcodeWidget)
+                                  for (var i = 0; i < qrCodes.length; i++)
+                                    qrcodeWidgetModel(i, qrCodeModel),
+
+                                if (showTableWidget)
+                                  for (var i = 0; i < tableCodes.length; i++)
+                                    tableWidgetModel(i, tableModel)
+
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   },
-                  child: Container(
-                    height: containerHeight,
-                    width: containerWidth,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black),
-                      borderRadius: const BorderRadius.all(Radius.circular(13)),
-                    ),
-                    child: Stack(
-                      children: [
-
-                        if (textModel.showTextEditingWidget ||
-                            showDateContainerWidget)
-                          for (var i = 0; i < textCodes.length; i++)
-                            textDateWidgetModel(i, textModel, dateTimeModel),
-
-                        if (barcodeModel.showBarcodeWidget)
-                          for (var i = 0; i < barCodes.length; i++)
-                            barcodeWidgetModel(i, barcodeModel)
-                      ],
-                    ),
-                  ),
                 );
               },
             );
@@ -130,4 +153,45 @@ class _TemplateContainerState extends State<TemplateContainer> {
     );
   }
 
+  Widget qrcodeWidgetModel(int i, QrCodeProvider qrCodeModel) {
+    return Positioned(
+      left: qrCodeOffsets[i].dx,
+      top: qrCodeOffsets[i].dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          qrCodeModel.movingWidget(details, i);
+        },
+        onTapDown: (details) {
+          selectedQRCodeIndex = i;
+          qrCodeModel.onTouchFunction(details);
+        },
+        onDoubleTap: () {
+          qrCodeModel.showQrcodeInputDialog(selectedQRCodeIndex, context);
+        },
+        child: QrCodeContainerClass(
+          qrcodeData: qrCodes[i],
+          qrIndex: i,
+        ),
+      ),
+    );
+  }
+
+  Widget tableWidgetModel(int i, TableProvider tableModel) {
+    return Positioned(
+      left: tableOffsets[i].dx,
+      top: tableOffsets[i].dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          tableModel.movingWidget(details, i);
+        },
+        onTapDown: (details) {
+          selectedTableCodeIndex = i;
+          tableModel.onTouchFunction(details);
+        },
+        child: TableEditingContainerClass(
+          tableIndex: i,
+        ),
+      ),
+    );
+  }
 }

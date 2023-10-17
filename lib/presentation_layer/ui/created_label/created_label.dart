@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/teamplate_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_qrcode_editing_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_table_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_text_editing_container.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/reuseable_class.dart';
 import '../../providers/date_time_editing_provider.dart';
+import '../../providers/on_tap_function_provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
 import '../../providers/date_time_editing_provider.dart' as flutter_timer;
 
 
-double screenWidth = ScreenUtil().screenWidth;
-bool showTextEditingWidget = false;
-bool showTextEditingContainerFlag = false;
+
 
 class CreateLabel extends StatefulWidget {
   const CreateLabel({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class CreateLabel extends StatefulWidget {
 class _CreateLabelState extends State<CreateLabel> {
   TextEditingProvider textEditingProvider = TextEditingProvider();
   DateTimeProvider dateTimeProvider = DateTimeProvider();
+
 
   @override
   void initState() {
@@ -55,6 +59,11 @@ class _CreateLabelState extends State<CreateLabel> {
     print('build function 1');
     return MultiProvider(
       providers: [
+
+        ChangeNotifierProvider<OnTouchFunctionProvider>(
+          create: (_) => OnTouchFunctionProvider(),
+        ),
+
         ChangeNotifierProvider<TextEditingProvider>(
           create: (_) => TextEditingProvider(),
         ),
@@ -63,9 +72,18 @@ class _CreateLabelState extends State<CreateLabel> {
           create: (_) => BarcodeProvider(),
         ),
 
+        ChangeNotifierProvider<QrCodeProvider>(
+          create: (_) => QrCodeProvider(),
+        ),
+
         ChangeNotifierProvider<DateTimeProvider>(
           create: (_) => DateTimeProvider(),
         ),
+
+        ChangeNotifierProvider<TableProvider>(
+          create: (_) => TableProvider(),
+        ),
+
       ],
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
@@ -76,22 +94,51 @@ class _CreateLabelState extends State<CreateLabel> {
               builder: (context, dateTimeModel, _) {
                 return Consumer<BarcodeProvider>(
                   builder: (context, barcodeModel, child) {
-                  return Column(
-                    children: [
-                      const Expanded(child: TemplateContainer()),
-                      if (textModel.showTextEditingContainerFlag)
-                        const Expanded(child: ShowTextEditingContainer())
-                      else if (barcodeModel.showBarcodeContainerFlag)
-                        const Expanded(child: ShowBarcodeContainer())
-                      else if (showDateContainerFlag)
-                          const Expanded(child: ShowDateTimeEditingContainer())
-                        else
-                          Expanded(
-                            child: buildOptionsContainer(context, textModel, dateTimeModel, barcodeModel),
-                          ),
-                    ],
-                  );
-                },);
+                    return Consumer<QrCodeProvider>(
+                      builder: (context, qrCodeModel, child) {
+                        return Consumer<TableProvider>(
+                          builder: (context, tableModel, child) {
+                            return Column(
+                              children: [
+                                const Expanded(child: TemplateContainer()),
+
+                                if (showTextEditingContainerFlag)
+                                  const Expanded(
+                                      child: ShowTextEditingContainer())
+
+                                else if (showBarcodeContainerFlag)
+                                  const Expanded(child: ShowBarcodeContainer())
+
+                                else if (showQrcodeContainerFlag)
+                                  Expanded(child: ShowQrcodeContainer())
+
+                                else if (showTableContainerFlag)
+                                      const Expanded(
+                                          child: ShowTableEditingContainer())
+
+                                else if (showDateContainerFlag)
+                                  const Expanded(
+                                      child: ShowDateTimeEditingContainer())
+
+                                else
+                                  Expanded(
+                                    child: buildOptionsContainer(
+                                        context,
+                                        textModel,
+                                        dateTimeModel,
+                                        barcodeModel,
+                                        qrCodeModel,
+                                        tableModel
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
               },
             );
           },
@@ -103,7 +150,7 @@ class _CreateLabelState extends State<CreateLabel> {
   }
 
   Widget buildOptionsContainer(
-      BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel, BarcodeProvider barcodeModel) {
+      BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel, BarcodeProvider barcodeModel, QrCodeProvider qrCodeModel, TableProvider tableModel) {
     return Stack(children: [
       Container(
         padding: REdgeInsets.only(bottom: 30.h),
@@ -138,7 +185,7 @@ class _CreateLabelState extends State<CreateLabel> {
             SizedBox(height: 10.h),
             Expanded(
               child: SingleChildScrollView(
-                child: buildOptions(context, textModel,  dateTimeModel, barcodeModel),
+                child: buildOptions(context, textModel,  dateTimeModel, barcodeModel,qrCodeModel,tableModel),
               ),
             ),
           ],
@@ -147,7 +194,13 @@ class _CreateLabelState extends State<CreateLabel> {
     ]);
   }
 
-  Widget buildOptions(BuildContext context, TextEditingProvider textModel, DateTimeProvider dateTimeModel, BarcodeProvider barcodeModel) {
+  Widget buildOptions(BuildContext context,
+      TextEditingProvider textModel,
+      DateTimeProvider dateTimeModel,
+      BarcodeProvider barcodeModel,
+      QrCodeProvider qrCodeModel,
+      TableProvider tableModel
+      ) {
     return Container(
       height: 230.h,
       width: screenWidth,
@@ -159,8 +212,8 @@ class _CreateLabelState extends State<CreateLabel> {
             [
               ReuseAbleClass().buildIconButton('assets/icons/text.png', 'Text',
                   () {
-                textModel.setShowTextEditingContainerFlag(true);
                 textModel.setShowTextEditingWidget(true);
+                textModel.setShowTextEditingContainerFlag(true);
                 textModel.generateTextCode('Double Click Here', 1);
               }),
               ReuseAbleClass().buildIconButton(
@@ -170,9 +223,17 @@ class _CreateLabelState extends State<CreateLabel> {
                    barcodeModel.generateBarCode('1234', 1);
               }),
               ReuseAbleClass()
-                  .buildIconButton('assets/icons/qrcode.png', 'QR Code', () {}),
+                  .buildIconButton('assets/icons/qrcode.png', 'QR Code', () {
+                    qrCodeModel.setShowQrcodeWidget(true);
+                    qrCodeModel.setShowQrcodeContainerFlag(true);
+                    qrCodeModel.generateQRCode('5678', 1);
+              }),
               ReuseAbleClass()
-                  .buildIconButton('assets/icons/table.png', 'Table', () {}),
+                  .buildIconButton('assets/icons/table.png', 'Table', () {
+                    tableModel.setShowTableEditingWidget(true);
+                    tableModel.setShowTableEditingContainerFlag(true);
+                    tableModel.generateTableCode();
+              }),
             ],
           ),
           SizedBox(height: 15.h),

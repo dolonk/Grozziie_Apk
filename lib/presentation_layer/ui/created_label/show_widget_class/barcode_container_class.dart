@@ -5,7 +5,6 @@ import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:provider/provider.dart';
 import '../global_variable.dart';
 
-
 // ignore: must_be_immutable
 class BarcodeContainerClass extends StatelessWidget {
   final String barcodeData;
@@ -24,7 +23,7 @@ class BarcodeContainerClass extends StatelessWidget {
             Container(
               margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                  border: barcodeModel.barcodeBorderWidget
+                  border: barcodeBorderWidget
                       ? Border.all(
                           color: selectedBarCodeIndex == brIndex
                               ? Colors.blue
@@ -55,7 +54,7 @@ class BarcodeContainerClass extends StatelessWidget {
                 },
                 child: Visibility(
                   visible: selectedBarCodeIndex == brIndex
-                      ? barcodeModel.barcodeBorderWidget
+                      ? barcodeBorderWidget
                       : false,
                   child: SizedBox(
                     width: 20,

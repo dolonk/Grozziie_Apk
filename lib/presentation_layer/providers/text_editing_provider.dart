@@ -17,9 +17,6 @@ class TextEditingProvider extends ChangeNotifier {
   double textValueSize = 25;
   String currentText = '';
   List<String> undoStack = [];
-  bool showTextEditingWidget = false;
-  bool showTextEditingContainerFlag = false;
-  bool textBorderWidget = false;
 
   void setTextBorderWidgetFlag(bool flag) {
     textBorderWidget = flag;
@@ -173,7 +170,7 @@ class TextEditingProvider extends ChangeNotifier {
     else if (textCodeFlag == 3) {
       DateTime currentTime = DateTime.now();
       String formattedDateTime =
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
       String completeTextValue = formattedDateTime;
       textCodes.add(completeTextValue);
       selectedTextCodeIndex = textCodes.length - 1;
@@ -269,7 +266,7 @@ class TextEditingProvider extends ChangeNotifier {
       textControllers[selectIndex] = TextEditingController(text: "");
     }
     final TextEditingController? inputTextEditingController =
-        textControllers[selectIndex];
+    textControllers[selectIndex];
     showDialog(
       context: context,
       builder: (BuildContext context) {

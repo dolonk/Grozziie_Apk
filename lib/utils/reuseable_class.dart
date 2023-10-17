@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ReuseAbleClass{
-
+class ReuseAbleClass {
   buildOptionRow(List<Widget> children) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -10,8 +9,7 @@ class ReuseAbleClass{
     );
   }
 
-  buildIconButton(
-      String imagePath, String label, VoidCallback onPressed) {
+  buildIconButton(String imagePath, String label, VoidCallback onPressed) {
     return InkWell(
       onTap: onPressed,
       child: SizedBox(
@@ -43,6 +41,7 @@ class ReuseAbleClass{
       ),
     );
   }
+
   Widget buildTextIonButton(
       String imagePath, String label, VoidCallback onPressed) {
     return SizedBox(

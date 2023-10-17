@@ -41,7 +41,7 @@ class TextEditingContainerClass extends StatelessWidget {
                 minHeight: 30,
               ),
               decoration: BoxDecoration(
-                border: textModel.textBorderWidget
+                border: textBorderWidget
                     ? Border.all(
                         color: selectedTextCodeIndex == textIndex
                             ? Colors.blue
@@ -72,7 +72,7 @@ class TextEditingContainerClass extends StatelessWidget {
                 },
                 child: Visibility(
                   visible: selectedTextCodeIndex == textIndex
-                      ? textModel.textBorderWidget
+                      ? textBorderWidget
                       : false,
                   child: SizedBox(
                     width: 20,

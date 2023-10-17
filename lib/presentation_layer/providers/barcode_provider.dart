@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../ui/created_label/global_variable.dart';
 
 class BarcodeProvider extends ChangeNotifier {
-
   double barcodeWidth = 100.0;
   double barcodeHeight = 80.0;
   double minBarcodeWidth = 80.0;
   double minBarcodeHeight = 50.0;
   Map<int, TextEditingController> barCodesControllers = {};
   FocusNode inputFocusNode = FocusNode();
-  bool showBarcodeContainerFlag = false;
-  bool showBarcodeWidget = false;
-  bool barcodeBorderWidget = false;
   bool showBarData = true;
   bool isBarcodeTextCleared = true;
-
   String encodingType = 'Code128';
   String errorMessage = "";
   String barcodeData = '1234';
@@ -33,7 +27,6 @@ class BarcodeProvider extends ChangeNotifier {
     'Code39',
     'CodeBar',
   ];
-
 
   void setShowBarcodeContainerFlag(bool flag) {
     showBarcodeContainerFlag = flag;
@@ -50,7 +43,7 @@ class BarcodeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void movingWidget(DragUpdateDetails details, int index){
+  void movingWidget(DragUpdateDetails details, int index) {
     barCodeOffsets[index] = Offset(
       barCodeOffsets[index].dx + details.delta.dx,
       barCodeOffsets[index].dy + details.delta.dy,
@@ -76,8 +69,16 @@ class BarcodeProvider extends ChangeNotifier {
   }
 
   void onTouchFunction(TapDownDetails details) {
+    textBorderWidget = false;
     barcodeBorderWidget = true;
-    showBarcodeContainerFlag = true;
+    qrcodeBorderWidget = false;
+    notifyListeners();
+  }
+
+  void onTouchContainerFunction() {
+    showTextEditingContainerFlag = false;
+    showBarcodeContainerFlag = false;
+    showQrcodeContainerFlag = false;
     notifyListeners();
   }
 
@@ -149,7 +150,6 @@ class BarcodeProvider extends ChangeNotifier {
     }
   }
 
-
   void setEncodingType(String newType) {
     encodingType = newType;
     getBarcode(newType);
@@ -164,7 +164,8 @@ class BarcodeProvider extends ChangeNotifier {
       barCodesContainerRotations[selectedBarCodeIndex] = pi;
     } else if (barCodesContainerRotations[selectedBarCodeIndex] == pi) {
       barCodesContainerRotations[selectedBarCodeIndex] = 90 * pi / 180;
-    } else if (barCodesContainerRotations[selectedBarCodeIndex] == 90 * pi / 180) {
+    } else if (barCodesContainerRotations[selectedBarCodeIndex] ==
+        90 * pi / 180) {
       barCodesContainerRotations[selectedBarCodeIndex] = 0.0;
     }
     notifyListeners();
@@ -302,5 +303,6 @@ class BarcodeProvider extends ChangeNotifier {
       }
       barcodeBorderWidget = false;
     }
+    notifyListeners();
   }
 }

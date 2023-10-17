@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/date_time_editing_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/on_tap_function_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/text_editing_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/created_label.dart';
 import 'package:grozziieapk/presentation_layer/ui/login_section/splash_screen.dart';
@@ -29,17 +30,8 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MultiProvider(
           providers: [
-
-            ChangeNotifierProvider<TextEditingProvider>(
-              create: (_) => TextEditingProvider(),
-            ),
-
-            ChangeNotifierProvider<BarcodeProvider>(
-              create: (_) => BarcodeProvider(),
-            ),
-
-            ChangeNotifierProvider<DateTimeProvider>(
-              create: (_) => DateTimeProvider(),
+            ChangeNotifierProvider<OnTouchFunctionProvider>(
+              create: (_) => OnTouchFunctionProvider(),
             ),
           ],
           child: MaterialApp(
