@@ -1,9 +1,7 @@
-
 import 'dart:core';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 FocusNode inputFocusNode = FocusNode();
 double screenWidth = ScreenUtil().screenWidth;
@@ -23,11 +21,20 @@ bool showTextEditingContainerFlag = false;
 bool textBorderWidget = false;
 int selectedTextCodeIndex = 0;
 
+// serial number
+bool showSerialWidget = false;
+bool showSerialContainerFlag = false;
+List<String> prefixNumber = [];
+List<String> suffixNumber = [];
+List<int> incrementNumber = [];
+int selectedSerialCodeIndex = 0;
 
 // Multiple Barcode function variable
 List<String> barCodes = [];
 List<Offset> barCodeOffsets = [];
-List<double> barCodesContainerRotations =[] ;
+List<double> brFontSizeData = [];
+List<double> calculatedWidth = [];
+List<double> barCodesContainerRotations = [];
 List<double> updateBarcodeWidth = [];
 List<double> updateBarcodeHeight = [];
 bool showBarcodeWidget = false;
@@ -35,8 +42,6 @@ bool showBarcodeContainerFlag = false;
 bool isSupportedType = true;
 bool barcodeBorderWidget = false;
 int selectedBarCodeIndex = 0;
-
-
 
 // Multiple Qrcode function variable
 List<String> qrCodes = [];
@@ -46,7 +51,6 @@ bool showQrcodeWidget = false;
 bool showQrcodeContainerFlag = false;
 bool qrcodeBorderWidget = false;
 int selectedQRCodeIndex = 0;
-
 
 // multiple Table Widget variable
 List<double> updateTableWidth = [];
@@ -60,23 +64,24 @@ bool showTableContainerFlag = false;
 bool tableBorderWidget = false;
 int selectedTableCodeIndex = 0;
 
+//Multiple Image  function variable List
+List<String> imageCodes = [];
+List<Offset> imageOffsets = [];
+List<double> updateImageSize = [];
+List<double> imageCodesContainerRotations = [];
+bool showImageWidget = false;
+bool showImageContainerFlag = false;
+bool imageBorderWidget = false;
+int selectedImageCodeIndex = 0;
+
 
 // multiple scan function variable
 List<String> scanCodes = [];
 List<Offset> scanCodeOffsets = [];
-bool imageBorderWidget = false;
 int selectedScanCodeIndex = 0;
-
 
 // Multiple Time Date function Variable
 List<int> selectTimeTextScanInt = [];
 bool showDateContainerWidget = false;
 bool showDateContainerFlag = false;
 int selectedTimeCodeIndex = 0;
-
-
-// serial number
-int selectedSerialCodeIndex = 0;
-List<String> prefixNumber = [];
-List<int> incrementNumber = [];
-List<String> suffixNumber = [];

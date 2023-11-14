@@ -33,20 +33,6 @@ class QrCodeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onTouchFunction(TapDownDetails details) {
-    textBorderWidget = false;
-    barcodeBorderWidget = false;
-    qrcodeBorderWidget = true;
-    notifyListeners();
-  }
-
-  void onTouchContainerFunction() {
-    showTextEditingContainerFlag = false;
-    showBarcodeContainerFlag = false;
-    showQrcodeContainerFlag = false;
-    notifyListeners();
-  }
-
   void handleResizeGesture(DragUpdateDetails details, int? qrIndex) {
     if (selectedQRCodeIndex == qrIndex) {
       final newQrcodeSize =

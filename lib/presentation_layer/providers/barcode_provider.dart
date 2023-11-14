@@ -156,7 +156,7 @@ class BarcodeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void rotationFunction() {
+  /*void rotationFunction() {
     if (barCodesContainerRotations[selectedBarCodeIndex] == 0.0) {
       barCodesContainerRotations[selectedBarCodeIndex] = -90 * pi / 180;
     } else if (barCodesContainerRotations[selectedBarCodeIndex] ==
@@ -169,7 +169,7 @@ class BarcodeProvider extends ChangeNotifier {
       barCodesContainerRotations[selectedBarCodeIndex] = 0.0;
     }
     notifyListeners();
-  }
+  }*/
 
   void showBarcodeInputDialog(int selectIndex, BuildContext context) {
     if (!barCodesControllers.containsKey(selectIndex)) {

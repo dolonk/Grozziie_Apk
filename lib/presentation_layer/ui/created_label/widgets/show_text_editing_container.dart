@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../utils/app_style.dart';
-import '../../../../utils/reuseable_class.dart';
+import '../../../../utils/utils.dart';
 import '../../../providers/on_tap_function_provider.dart';
 import '../../../providers/text_editing_provider.dart';
 import '../global_variable.dart';
@@ -14,64 +14,68 @@ class ShowTextEditingContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TextEditingProvider>(
       builder: (context, textModel, _) {
-        return Consumer<OnTouchFunctionProvider>(builder: (context, onTap, child) {
-          return Stack(
-            children: [
-              Container(
-                padding: REdgeInsets.only(bottom: 25.h),
-                margin: REdgeInsets.only(top: 10.h),
-                alignment: Alignment.topCenter,
-                child: Image.asset('assets/icons/rectangle.png'),
-              ),
-              Container(
-                margin: REdgeInsets.only(top: 15.h),
-                height: double.infinity,
-                width: ScreenUtil().screenWidth,
-                decoration: BoxDecoration(
-                  color: const Color(0xff5DBCFF).withOpacity(0.13),
-                  borderRadius: BorderRadius.all(Radius.circular(13.w)),
+        return Consumer<OnTouchFunctionProvider>(
+          builder: (context, onTouch, child) {
+            return Stack(
+              children: [
+                Container(
+                  padding: REdgeInsets.only(bottom: 25.h),
+                  margin: REdgeInsets.only(top: 10.h),
+                  alignment: Alignment.topCenter,
+                  child: Image.asset('assets/icons/rectangle.png'),
                 ),
-                child: Column(
-                  children: [
-                    ReuseAbleClass().buildOptionRow(
-                      [
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/template.png', 'Template', () {
-                          textModel.setTextBorderWidgetFlag(false);
-                          onTap.clearContainerFlag();
-                        }),
-                        Image.asset('assets/images/line_c.png'),
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/delete_icon.png', 'Delete', () {
-                          textModel.setShowTextEditingContainerFlag(false);
-                          textModel.deleteTextCode(selectedTextCodeIndex);
-                        }),
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/multiple.png', 'Multiple', () {}),
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/mirroring_icon.png',
-                            'Mirroring',
-                                () {}),
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/lock_icon.png', 'Lock', () {}),
-                        ReuseAbleClass().buildIconButton(
-                            'assets/icons/rotated_icon.png', 'Rotate', () {
-                          textModel.rotationFunction();
-                        }),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: textEditingOptions(context),
+                Container(
+                  margin: REdgeInsets.only(top: 15.h),
+                  height: double.infinity,
+                  width: ScreenUtil().screenWidth,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff5DBCFF).withOpacity(0.13),
+                    borderRadius: BorderRadius.all(Radius.circular(13.w)),
+                  ),
+                  child: Column(
+                    children: [
+                      ReuseAbleClass().buildOptionRow(
+                        [
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/template.png', 'Template',
+                              () async {
+                            await onTouch.showBorderContainerFlag(
+                                'textEditing', false);
+                          }),
+                          Image.asset('assets/images/line_c.png'),
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/delete_icon.png', 'Delete', () {
+                            //textModel.setShowTextEditingContainerFlag(false);
+                            textModel.deleteTextCode(selectedTextCodeIndex);
+                            textModel.setShowTextEditingContainerFlag(false);
+                          }),
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/multiple.png', 'Multiple', () {}),
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/mirroring_icon.png',
+                              'Mirroring',
+                              () {}),
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/lock_icon.png', 'Lock', () {}),
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/rotated_icon.png', 'Rotate', () {
+                            onTouch.rotateFunction(textContainerRotations, selectedTextCodeIndex);
+                          }),
+                        ],
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 10.h),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: textEditingOptions(context),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-        },);
+              ],
+            );
+          },
+        );
       },
     );
   }

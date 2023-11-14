@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/date_time_editing_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/image_take_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/on_tap_function_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/barcode_container_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/image_take_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/qrcode_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/show_table_editing_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_container_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_image_take_container.dart';
 import 'package:provider/provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
@@ -23,53 +29,74 @@ class _TemplateContainerState extends State<TemplateContainer> {
   Widget build(BuildContext context) {
     double containerHeight = 300;
     double containerWidth = 400;
-    return Consumer<TextEditingProvider>(
-      builder: (context, textModel, _) {
-        return Consumer<DateTimeProvider>(
-          builder: (context, dateTimeModel, _) {
-            return Consumer<BarcodeProvider>(
-              builder: (context, barcodeModel, child) {
-                return Consumer<QrCodeProvider>(
-                  builder: (context, qrCodeModel, child) {
-                    return Consumer<TableProvider>(
-                      builder: (context, tableModel, child) {
-                        return InkWell(
-                          onTap: () {
-                            textModel.setTextBorderWidgetFlag(false);
+    return Consumer<OnTouchFunctionProvider>(
+      builder: (context, onTouchModel, child) {
+        return Consumer<TextEditingProvider>(
+          builder: (context, textModel, _) {
+            return Consumer<DateTimeProvider>(
+              builder: (context, dateTimeModel, _) {
+                return Consumer<BarcodeProvider>(
+                  builder: (context, barcodeModel, child) {
+                    return Consumer<QrCodeProvider>(
+                      builder: (context, qrCodeModel, child) {
+                        return Consumer<TableProvider>(
+                          builder: (context, tableModel, child) {
+                            return Consumer<ImageTakeProvider>(
+                              builder: (context, imageModel, child) {
+                                return InkWell(
+                                  onTap: () {
+                                    textModel.setTextBorderWidgetFlag(false);
+                                  },
+                                  child: Container(
+                                    height: containerHeight,
+                                    width: containerWidth,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(13)),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        if (showTextEditingWidget ||
+                                            showDateContainerWidget)
+                                          for (var i = 0;
+                                              i < textCodes.length;
+                                              i++)
+                                            textDateWidgetModel(i, textModel,
+                                                dateTimeModel, onTouchModel),
+                                        if (showBarcodeWidget)
+                                          for (var i = 0;
+                                              i < barCodes.length;
+                                              i++)
+                                            barcodeWidgetModel(
+                                                i, barcodeModel, onTouchModel),
+                                        if (showQrcodeWidget)
+                                          for (var i = 0;
+                                              i < qrCodes.length;
+                                              i++)
+                                            qrcodeWidgetModel(
+                                                i, qrCodeModel, onTouchModel),
+                                        if (showTableWidget)
+                                          for (var i = 0;
+                                              i < tableCodes.length;
+                                              i++)
+                                            tableWidgetModel(
+                                                i, tableModel, onTouchModel),
+                                        if (showImageWidget)
+                                          for (var i = 0;
+                                              i < imageCodes.length;
+                                              i++)
+                                            if (imageCodes[i] != 'demoImage')
+                                              imageWidgetModel(
+                                                  i, imageModel, onTouchModel)
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
-                          child: Container(
-                            height: containerHeight,
-                            width: containerWidth,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(13)),
-                            ),
-                            child: Stack(
-                              children: [
-
-                                if (showTextEditingWidget ||
-                                    showDateContainerWidget)
-                                  for (var i = 0; i < textCodes.length; i++)
-                                    textDateWidgetModel(
-                                        i, textModel, dateTimeModel),
-
-                                if (showBarcodeWidget)
-                                  for (var i = 0; i < barCodes.length; i++)
-                                    barcodeWidgetModel(i, barcodeModel),
-
-                                if (showQrcodeWidget)
-                                  for (var i = 0; i < qrCodes.length; i++)
-                                    qrcodeWidgetModel(i, qrCodeModel),
-
-                                if (showTableWidget)
-                                  for (var i = 0; i < tableCodes.length; i++)
-                                    tableWidgetModel(i, tableModel)
-
-                              ],
-                            ),
-                          ),
                         );
                       },
                     );
@@ -83,8 +110,8 @@ class _TemplateContainerState extends State<TemplateContainer> {
     );
   }
 
-  Widget textDateWidgetModel(
-      int i, TextEditingProvider textModel, DateTimeProvider dateTimeModel) {
+  Widget textDateWidgetModel(int i, TextEditingProvider textModel,
+      DateTimeProvider dateTimeModel, OnTouchFunctionProvider onTouchModel) {
     return Positioned(
       left: textCodeOffsets[i].dx,
       top: textCodeOffsets[i].dy,
@@ -92,10 +119,11 @@ class _TemplateContainerState extends State<TemplateContainer> {
         onPanUpdate: (details) {
           textModel.movingWidget(details, i);
         },
-        onTapDown: (details) {
-          textModel.onTouchFunction(details);
+        onTapDown: (details) async {
+          await onTouchModel.showBorderContainerFlag('textEditing', true);
           selectedTextCodeIndex = i;
           selectedScanCodeIndex = i;
+
           if (selectTimeTextScanInt[i] == 1) {
             textModel.setShowTextEditingContainerFlag(true);
             dateTimeModel.setDateTimeContainerFlag(false);
@@ -126,7 +154,8 @@ class _TemplateContainerState extends State<TemplateContainer> {
     );
   }
 
-  Widget barcodeWidgetModel(int i, BarcodeProvider barcodeModel) {
+  Widget barcodeWidgetModel(int i, BarcodeProvider barcodeModel,
+      OnTouchFunctionProvider onTouchModel) {
     return Positioned(
       left: barCodeOffsets[i].dx,
       top: barCodeOffsets[i].dy,
@@ -134,9 +163,9 @@ class _TemplateContainerState extends State<TemplateContainer> {
         onPanUpdate: (details) {
           barcodeModel.movingWidget(details, i);
         },
-        onTapDown: (details) {
+        onTapDown: (details) async {
+          await onTouchModel.showBorderContainerFlag('barcode', true);
           selectedBarCodeIndex = i;
-          barcodeModel.onTouchFunction(details);
         },
         onDoubleTap: () {
           barcodeModel.showBarcodeInputDialog(selectedBarCodeIndex, context);
@@ -153,7 +182,8 @@ class _TemplateContainerState extends State<TemplateContainer> {
     );
   }
 
-  Widget qrcodeWidgetModel(int i, QrCodeProvider qrCodeModel) {
+  Widget qrcodeWidgetModel(
+      int i, QrCodeProvider qrCodeModel, OnTouchFunctionProvider onTouchModel) {
     return Positioned(
       left: qrCodeOffsets[i].dx,
       top: qrCodeOffsets[i].dy,
@@ -161,9 +191,9 @@ class _TemplateContainerState extends State<TemplateContainer> {
         onPanUpdate: (details) {
           qrCodeModel.movingWidget(details, i);
         },
-        onTapDown: (details) {
+        onTapDown: (details) async {
+          await onTouchModel.showBorderContainerFlag('qrcode', true);
           selectedQRCodeIndex = i;
-          qrCodeModel.onTouchFunction(details);
         },
         onDoubleTap: () {
           qrCodeModel.showQrcodeInputDialog(selectedQRCodeIndex, context);
@@ -176,7 +206,8 @@ class _TemplateContainerState extends State<TemplateContainer> {
     );
   }
 
-  Widget tableWidgetModel(int i, TableProvider tableModel) {
+  Widget tableWidgetModel(
+      int i, TableProvider tableModel, OnTouchFunctionProvider onTouchModel) {
     return Positioned(
       left: tableOffsets[i].dx,
       top: tableOffsets[i].dy,
@@ -184,12 +215,38 @@ class _TemplateContainerState extends State<TemplateContainer> {
         onPanUpdate: (details) {
           tableModel.movingWidget(details, i);
         },
-        onTapDown: (details) {
+        onTapDown: (details) async {
+          await onTouchModel.showBorderContainerFlag('table', true);
           selectedTableCodeIndex = i;
-          tableModel.onTouchFunction(details);
         },
         child: TableEditingContainerClass(
           tableIndex: i,
+        ),
+      ),
+    );
+  }
+
+  Widget imageWidgetModel(int i, ImageTakeProvider imageModel,
+      OnTouchFunctionProvider onTouchModel) {
+    return Positioned(
+      left: imageOffsets[i].dx,
+      top: imageOffsets[i].dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          imageModel.movingWidget(details, i);
+        },
+        onTapDown: (details) async {
+          selectedImageCodeIndex = i;
+          await onTouchModel.showBorderContainerFlag('image', true);
+        },
+        child: Transform.rotate(
+          angle: -imageCodesContainerRotations[i],
+          child: ImagesTakeContainer(
+            imageIndex: i,
+            imageDate: Image.file(
+              File(imageCodes[i]),
+            ),
+          ),
         ),
       ),
     );

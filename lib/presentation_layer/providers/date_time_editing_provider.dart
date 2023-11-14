@@ -15,7 +15,6 @@ enum TimeOfDayFormat {
 }
 
 class DateTimeProvider with ChangeNotifier {
-
   DateFormat? selectedFormatDate = DateFormat('MMMM d, yyyy');
   DateTime selectDate = DateTime.now();
   TimeOfDayFormat selectFormat = TimeOfDayFormat.h_colon_mm_space_a;
@@ -217,11 +216,28 @@ class DateTimeProvider with ChangeNotifier {
     );
   }
 
+  int _getSelectedIndexDate() {
+    if (selectedFormatDate == null) {
+      return 3;
+    } else if (selectedFormatDate!.pattern == 'MMMM d, yyyy') {
+      return 0;
+    } else if (selectedFormatDate!.pattern == 'yyyy-MM-dd') {
+      return 1;
+    } else if (selectedFormatDate!.pattern == 'dd/MM/yyyy') {
+      return 2;
+    } else {
+      return 0;
+    }
+  }
+
   Widget dateFormatSelectionWidget() {
     return SizedBox(
       height: 200.0,
       child: CupertinoPicker(
         itemExtent: 50.0,
+        scrollController: FixedExtentScrollController(
+          initialItem: _getSelectedIndexDate(),
+        ),
         onSelectedItemChanged: (int index) {
           switch (index) {
             case 0:
@@ -236,15 +252,12 @@ class DateTimeProvider with ChangeNotifier {
             case 3:
               selectedFormatDate = null;
               break;
-            default:
-              selectedFormatDate = DateFormat('MMMM d, yyyy');
           }
-          notifyListeners();
         },
         children: const [
+          Text('MMMM d, yyyy'),
           Text('yyyy-MM-dd'),
           Text('dd/MM/yyyy'),
-          Text('MMMM d, yyyy'),
           Text('No'),
         ],
       ),
@@ -268,13 +281,31 @@ class DateTimeProvider with ChangeNotifier {
     );
   }
 
+  int _getSelectedIndex() {
+    switch (selectFormat) {
+      case TimeOfDayFormat.h_colon_mm_space_a:
+        return 0;
+      case TimeOfDayFormat.h_colon_mm_colon_ss_space_a:
+        return 1;
+      case TimeOfDayFormat.H_colon_mm:
+        return 2;
+      case TimeOfDayFormat.H_colon_mm_colon_ss:
+        return 3;
+      case TimeOfDayFormat.None:
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
   Widget timeFormatSelectionDialog() {
     return SizedBox(
       height: 200.0,
       child: CupertinoPicker(
         itemExtent: 50,
+        scrollController:
+            FixedExtentScrollController(initialItem: _getSelectedIndex()),
         onSelectedItemChanged: (int index) {
-          // Update the selected format but do not call setState here.
           switch (index) {
             case 0:
               selectFormat = TimeOfDayFormat.h_colon_mm_space_a;
@@ -292,7 +323,6 @@ class DateTimeProvider with ChangeNotifier {
               selectFormat = TimeOfDayFormat.None;
               break;
           }
-          notifyListeners();
         },
         children: const [
           Text('h:mm a'),

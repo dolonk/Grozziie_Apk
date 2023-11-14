@@ -4,7 +4,7 @@ import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/app_style.dart';
 import '../../../../utils/custome_slider.dart';
-import '../../../../utils/reuseable_class.dart';
+import '../../../../utils/utils.dart';
 import '../../../providers/on_tap_function_provider.dart';
 import '../global_variable.dart';
 
@@ -37,16 +37,15 @@ class ShowTableEditingContainer extends StatelessWidget {
                       [
                         ReuseAbleClass().buildIconButton(
                             'assets/icons/template.png', 'Template', () async {
-                          tableModel.setShowTableEditingWidget(true);
                           tableModel.setTableBorderWidgetFlag(false);
-
-                          await onTap.clearContainerFlag();
+                          await onTap.showBorderContainerFlag('table', false);
                         }),
                         Image.asset('assets/images/line_c.png'),
                         ReuseAbleClass().buildTextIonButton(
                             'assets/icons/delete_icon.png', 'Delete', () {
-                          tableModel.setShowTableEditingContainerFlag(false);
+                          //tableModel.setShowTableEditingContainerFlag(false);
                           tableModel.deleteTableCode(selectedTableCodeIndex);
+                          tableModel.setShowTableEditingContainerFlag(false);
                         }),
 
                         /*_buildTextIonButton('assets/icons/empty.png', 'Empty', () {}),

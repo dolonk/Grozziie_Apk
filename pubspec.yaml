@@ -33,14 +33,12 @@ dependencies:
   google_fonts:
   flutter:
     sdk: flutter
-  firebase_core:
-  cloud_firestore:
-  firebase_auth:
-  firebase_storage:
   intl:
   flutter_picker:
   barcode_widget:
   qr_flutter:
+  image_picker:
+  image_cropper:
 
 
   # The following adds the Cupertino Icons font to your application.

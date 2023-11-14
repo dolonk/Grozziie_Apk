@@ -117,7 +117,7 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void rotationFunction() {
+  /*void rotationFunction() {
     if (textContainerRotations[selectedTextCodeIndex] == 0.0) {
       textContainerRotations[selectedTextCodeIndex] = -90 * pi / 180;
     } else if (textContainerRotations[selectedTextCodeIndex] ==
@@ -129,7 +129,7 @@ class TextEditingProvider extends ChangeNotifier {
       textContainerRotations[selectedTextCodeIndex] = 0.0;
     }
     notifyListeners();
-  }
+  }*/
 
   void generateTextCode(String textValue, int textCodeFlag) {
     if (textCodeFlag == 1) {
