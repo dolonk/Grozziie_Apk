@@ -75,10 +75,12 @@ bool imageBorderWidget = false;
 int selectedImageCodeIndex = 0;
 
 
-// multiple scan function variable
-List<String> scanCodes = [];
-List<Offset> scanCodeOffsets = [];
-int selectedScanCodeIndex = 0;
+//scan function variable
+String scanRes = '';
+bool showTextResult = false;
+bool showBarcode = false;
+bool showQRCode = false;
+
 
 // Multiple Time Date function Variable
 List<int> selectTimeTextScanInt = [];

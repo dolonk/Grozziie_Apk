@@ -37,7 +37,6 @@ class ShowTableEditingContainer extends StatelessWidget {
                       [
                         ReuseAbleClass().buildIconButton(
                             'assets/icons/template.png', 'Template', () async {
-                          tableModel.setTableBorderWidgetFlag(false);
                           await onTap.showBorderContainerFlag('table', false);
                         }),
                         Image.asset('assets/images/line_c.png'),

@@ -43,55 +43,50 @@ class _TemplateContainerState extends State<TemplateContainer> {
                           builder: (context, tableModel, child) {
                             return Consumer<ImageTakeProvider>(
                               builder: (context, imageModel, child) {
-                                return InkWell(
-                                  onTap: () {
-                                    textModel.setTextBorderWidgetFlag(false);
-                                  },
-                                  child: Container(
-                                    height: containerHeight,
-                                    width: containerWidth,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(13)),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        if (showTextEditingWidget ||
-                                            showDateContainerWidget)
-                                          for (var i = 0;
-                                              i < textCodes.length;
-                                              i++)
-                                            textDateWidgetModel(i, textModel,
-                                                dateTimeModel, onTouchModel),
-                                        if (showBarcodeWidget)
-                                          for (var i = 0;
-                                              i < barCodes.length;
-                                              i++)
-                                            barcodeWidgetModel(
-                                                i, barcodeModel, onTouchModel),
-                                        if (showQrcodeWidget)
-                                          for (var i = 0;
-                                              i < qrCodes.length;
-                                              i++)
-                                            qrcodeWidgetModel(
-                                                i, qrCodeModel, onTouchModel),
-                                        if (showTableWidget)
-                                          for (var i = 0;
-                                              i < tableCodes.length;
-                                              i++)
-                                            tableWidgetModel(
-                                                i, tableModel, onTouchModel),
-                                        if (showImageWidget)
-                                          for (var i = 0;
-                                              i < imageCodes.length;
-                                              i++)
-                                            if (imageCodes[i] != 'demoImage')
-                                              imageWidgetModel(
-                                                  i, imageModel, onTouchModel)
-                                      ],
-                                    ),
+                                return Container(
+                                  height: containerHeight,
+                                  width: containerWidth,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(13)),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      if (showTextEditingWidget ||
+                                          showDateContainerWidget)
+                                        for (var i = 0;
+                                            i < textCodes.length;
+                                            i++)
+                                          textDateWidgetModel(i, textModel,
+                                              dateTimeModel, onTouchModel),
+                                      if (showBarcodeWidget)
+                                        for (var i = 0;
+                                            i < barCodes.length;
+                                            i++)
+                                          barcodeWidgetModel(
+                                              i, barcodeModel, onTouchModel),
+                                      if (showQrcodeWidget)
+                                        for (var i = 0;
+                                            i < qrCodes.length;
+                                            i++)
+                                          qrcodeWidgetModel(
+                                              i, qrCodeModel, onTouchModel),
+                                      if (showTableWidget)
+                                        for (var i = 0;
+                                            i < tableCodes.length;
+                                            i++)
+                                          tableWidgetModel(
+                                              i, tableModel, onTouchModel),
+                                      if (showImageWidget)
+                                        for (var i = 0;
+                                            i < imageCodes.length;
+                                            i++)
+                                          if (imageCodes[i] != 'demoImage')
+                                            imageWidgetModel(
+                                                i, imageModel, onTouchModel)
+                                    ],
                                   ),
                                 );
                               },
@@ -122,8 +117,6 @@ class _TemplateContainerState extends State<TemplateContainer> {
         onTapDown: (details) async {
           await onTouchModel.showBorderContainerFlag('textEditing', true);
           selectedTextCodeIndex = i;
-          selectedScanCodeIndex = i;
-
           if (selectTimeTextScanInt[i] == 1) {
             textModel.setShowTextEditingContainerFlag(true);
             dateTimeModel.setDateTimeContainerFlag(false);
@@ -135,6 +128,8 @@ class _TemplateContainerState extends State<TemplateContainer> {
         },
         onDoubleTap: () {
           if (selectTimeTextScanInt[i] == 1) {
+            textModel.showTextInputDialog(selectedTextCodeIndex, context);
+          }else if (selectTimeTextScanInt[i] == 2) {
             textModel.showTextInputDialog(selectedTextCodeIndex, context);
           }
         },

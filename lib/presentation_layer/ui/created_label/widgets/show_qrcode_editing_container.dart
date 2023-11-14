@@ -8,7 +8,7 @@ import '../../../providers/on_tap_function_provider.dart';
 import '../global_variable.dart';
 
 class ShowQrcodeContainer extends StatelessWidget {
-  ShowQrcodeContainer({super.key});
+  const ShowQrcodeContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +38,8 @@ class ShowQrcodeContainer extends StatelessWidget {
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/template.png', 'Template',
                               () async {
-                            qrCodeModel.setQrcodeBorderWidget(false);
-                            await onTouch.showBorderContainerFlag('qrcode', false);
+                            await onTouch.showBorderContainerFlag(
+                                'qrcode', false);
                           }),
                           Image.asset('assets/images/line_c.png'),
                           ReuseAbleClass().buildTextIonButton(

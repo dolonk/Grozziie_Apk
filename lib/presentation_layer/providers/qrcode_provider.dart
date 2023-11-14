@@ -20,11 +20,6 @@ class QrCodeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setQrcodeBorderWidget(bool flag) {
-    qrcodeBorderWidget = flag;
-    notifyListeners();
-  }
-
   void movingWidget(DragUpdateDetails details, int index) {
     qrCodeOffsets[index] = Offset(
       qrCodeOffsets[index].dx + details.delta.dx,

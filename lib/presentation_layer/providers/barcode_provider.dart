@@ -38,11 +38,6 @@ class BarcodeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setBarcodeBorderWidget(bool flag) {
-    barcodeBorderWidget = flag;
-    notifyListeners();
-  }
-
   void movingWidget(DragUpdateDetails details, int index) {
     barCodeOffsets[index] = Offset(
       barCodeOffsets[index].dx + details.delta.dx,

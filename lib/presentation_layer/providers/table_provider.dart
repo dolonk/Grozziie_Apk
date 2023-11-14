@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../ui/created_label/global_variable.dart';
 
 class TableProvider extends ChangeNotifier {
@@ -8,8 +7,7 @@ class TableProvider extends ChangeNotifier {
   double minTableWidth = 80.0;
   double minTableHeight = 50.0;
 
-
-  void movingWidget(DragUpdateDetails details, int tableIndex){
+  void movingWidget(DragUpdateDetails details, int tableIndex) {
     tableOffsets[tableIndex] = Offset(
       tableOffsets[tableIndex].dx + details.delta.dx,
       tableOffsets[tableIndex].dy + details.delta.dy,
@@ -17,19 +15,11 @@ class TableProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void onTouchFunction(TapDownDetails details) {
     tableBorderWidget = true;
     textBorderWidget = false;
     barcodeBorderWidget = false;
     qrcodeBorderWidget = false;
-    notifyListeners();
-  }
-
-
-
-  void setTableBorderWidgetFlag(bool flag) {
-    tableBorderWidget = flag;
     notifyListeners();
   }
 

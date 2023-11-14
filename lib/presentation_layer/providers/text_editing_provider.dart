@@ -18,10 +18,7 @@ class TextEditingProvider extends ChangeNotifier {
   String currentText = '';
   List<String> undoStack = [];
 
-  void setTextBorderWidgetFlag(bool flag) {
-    textBorderWidget = flag;
-    notifyListeners();
-  }
+
 
   void setShowTextEditingWidget(bool flag) {
     showTextEditingWidget = flag;
@@ -117,20 +114,6 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*void rotationFunction() {
-    if (textContainerRotations[selectedTextCodeIndex] == 0.0) {
-      textContainerRotations[selectedTextCodeIndex] = -90 * pi / 180;
-    } else if (textContainerRotations[selectedTextCodeIndex] ==
-        -90 * pi / 180) {
-      textContainerRotations[selectedTextCodeIndex] = pi;
-    } else if (textContainerRotations[selectedTextCodeIndex] == pi) {
-      textContainerRotations[selectedTextCodeIndex] = 90 * pi / 180;
-    } else if (textContainerRotations[selectedTextCodeIndex] == 90 * pi / 180) {
-      textContainerRotations[selectedTextCodeIndex] = 0.0;
-    }
-    notifyListeners();
-  }*/
-
   void generateTextCode(String textValue, int textCodeFlag) {
     if (textCodeFlag == 1) {
       textCodes.add('Double Click here');
@@ -149,7 +132,6 @@ class TextEditingProvider extends ChangeNotifier {
       suffixNumber.add('');
       incrementNumber.add(0);
     }
-    /*
     else if (textCodeFlag == 2) {
         textCodes.add(textValue);
         selectedTextCodeIndex = textCodes.length - 1;
@@ -160,13 +142,13 @@ class TextEditingProvider extends ChangeNotifier {
         updateTextUnderline.add(false);
         updateTextAlignment.add(TextAlign.left);
         updateTextFontSize.add(15.0);
-        SelectTime_Text_Scan_Int.add(2);
+        selectTimeTextScanInt.add(2);
         textContainerRotations.add(0.0);
         updateTextWidthSize.add(130);
         prefixNumber.add('');
         suffixNumber.add('');
         incrementNumber.add(0);
-      } */
+      }
     else if (textCodeFlag == 3) {
       DateTime currentTime = DateTime.now();
       String formattedDateTime =

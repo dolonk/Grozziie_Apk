@@ -21,7 +21,7 @@ class ImageTakeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void movingWidget(DragUpdateDetails details, int imageIndex){
+  void movingWidget(DragUpdateDetails details, int imageIndex) {
     imageOffsets[imageIndex] = Offset(
       imageOffsets[imageIndex].dx + details.delta.dx,
       imageOffsets[imageIndex].dy + details.delta.dy,
