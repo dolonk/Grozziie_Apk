@@ -1,25 +1,25 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/image_take_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/scan_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/teamplate_container.dart';
+import 'package:grozziieapk/presentation_layer/serial_provider.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/scan_service_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/template_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_image_take_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_qrcode_editing_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_serial_number_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_table_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_text_editing_container.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import '../../../utils/app_style.dart';
 import '../../../utils/utils.dart';
 import '../../providers/date_time_editing_provider.dart';
 import '../../providers/on_tap_function_provider.dart';
@@ -88,6 +88,12 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<ImageTakeProvider>(
           create: (_) => ImageTakeProvider(),
         ),
+        ChangeNotifierProvider<ScanProvider>(
+          create: (_) => ScanProvider(),
+        ),
+        ChangeNotifierProvider<SerialProvider>(
+          create: (_) => SerialProvider(),
+        ),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
@@ -106,42 +112,63 @@ class _CreateLabelState extends State<CreateLabel> {
                               builder: (context, tableModel, child) {
                                 return Consumer<ImageTakeProvider>(
                                   builder: (context, imageModel, child) {
-                                    return Column(
-                                      children: [
-                                        const Expanded(
-                                            child: TemplateContainer()),
-                                        if (showTextEditingContainerFlag)
-                                          const Expanded(
-                                              child: ShowTextEditingContainer())
-                                        else if (showBarcodeContainerFlag)
-                                          const Expanded(
-                                              child: ShowBarcodeContainer())
-                                        else if (showQrcodeContainerFlag)
-                                          Expanded(child: ShowQrcodeContainer())
-                                        else if (showTableContainerFlag)
-                                          const Expanded(
-                                              child:
-                                                  ShowTableEditingContainer())
-                                        else if (showDateContainerFlag)
-                                          const Expanded(
-                                              child:
-                                                  ShowDateTimeEditingContainer())
-                                        else if (showImageContainerFlag)
-                                          const Expanded(
-                                              child: ShowImageTakeContainer())
-                                        else
-                                          Expanded(
-                                            child: buildOptionsContainer(
-                                                context,
-                                                /*onTouch,*/
-                                                textModel,
-                                                dateTimeModel,
-                                                barcodeModel,
-                                                qrCodeModel,
-                                                tableModel,
-                                                imageModel),
-                                          ),
-                                      ],
+                                    return Consumer<ScanProvider>(
+                                      builder: (context, scanModel, child) {
+                                        return Consumer<SerialProvider>(
+                                          builder:
+                                              (context, serialModel, child) {
+                                            return Column(
+                                              children: [
+                                                Expanded(
+                                                    child: TemplateContainer(
+                                                        context: context)),
+                                                if (showTextEditingContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowTextEditingContainer())
+                                                else if (showBarcodeContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowBarcodeContainer())
+                                                else if (showQrcodeContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowQrcodeContainer())
+                                                else if (showTableContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowTableEditingContainer())
+                                                else if (showDateContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowDateTimeEditingContainer())
+                                                else if (showImageContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowImageTakeContainer())
+                                                else if (showSerialContainerFlag)
+                                                  const Expanded(
+                                                      child:
+                                                          ShowSerialNumberContainer())
+                                                else
+                                                  Expanded(
+                                                    child:
+                                                        buildOptionsContainer(
+                                                            context,
+                                                            textModel,
+                                                            dateTimeModel,
+                                                            barcodeModel,
+                                                            qrCodeModel,
+                                                            tableModel,
+                                                            imageModel,
+                                                            scanModel,
+                                                            serialModel),
+                                                  ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
                                     );
                                   },
                                 );
@@ -170,7 +197,9 @@ class _CreateLabelState extends State<CreateLabel> {
       BarcodeProvider barcodeModel,
       QrCodeProvider qrCodeModel,
       TableProvider tableModel,
-      ImageTakeProvider imageModel) {
+      ImageTakeProvider imageModel,
+      ScanProvider scanModel,
+      SerialProvider serialModel) {
     return Stack(children: [
       Container(
         padding: REdgeInsets.only(bottom: 30.h),
@@ -253,27 +282,10 @@ class _CreateLabelState extends State<CreateLabel> {
                           }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/scan.png', 'Scan', () {
-                            scanTextBarcodeQrcode(
-                              context,
-                              textModel,
-                              qrCodeModel,
-                              barcodeModel,
-                            );
-                            //scanTextBarcodeQrcode(context);
+                            ScanService(scanModel, context)
+                                .scanTextBarcodeQrcode(context, textModel,
+                                    barcodeModel, qrCodeModel);
                           }),
-                          ReuseAbleClass().buildIconButton(
-                              'assets/icons/serial_number.png',
-                              'Serial Number',
-                              () {}),
-                          ReuseAbleClass().buildIconButton(
-                              'assets/icons/insert_excel.png',
-                              'Insert Excel',
-                              () {}),
-                        ],
-                      ),
-                      SizedBox(height: 15.h),
-                      ReuseAbleClass().buildOptionRow(
-                        [
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/time.png', 'Time', () {
                             dateTimeModel.setShowDateContainerWidget(true);
@@ -282,11 +294,27 @@ class _CreateLabelState extends State<CreateLabel> {
                                 dateTimeModel.getFormattedDateTime(), 3);
                           }),
                           ReuseAbleClass().buildIconButton(
+                              'assets/icons/emoji_icon.png', 'Emoji', () {}),
+                        ],
+                      ),
+                      SizedBox(height: 15.h),
+                      ReuseAbleClass().buildOptionRow(
+                        [
+                          ReuseAbleClass().buildIconButton(
+                              'assets/icons/serial_number.png', 'Serial Number',
+                              () {
+                            textModel.setShowTextEditingWidget(true);
+                            textModel.generateTextCode('01', 4);
+                            serialModel.setShowSerialContainerFlag(true);
+                          }),
+                          ReuseAbleClass().buildIconButton(
                               'assets/icons/shape.png', 'Shape', () {}),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/line.png', 'Line', () {}),
                           ReuseAbleClass().buildIconButton(
-                              'assets/icons/emoji_icon.png', 'Emoji', () {}),
+                              'assets/icons/insert_excel.png',
+                              'Insert Excel',
+                              () {}),
                         ],
                       ),
                     ],
@@ -299,199 +327,4 @@ class _CreateLabelState extends State<CreateLabel> {
       ),
     ]);
   }
-
-  Future<void> scanTextBarcodeQrcode(
-      BuildContext context,
-      TextEditingProvider textModel,
-      QrCodeProvider qrModel,
-      BarcodeProvider brModel) async {
-    String scanResult;
-
-    try {
-      scanResult = await FlutterBarcodeScanner.scanBarcode(
-        '#FF0000',
-        'Cancel',
-        true,
-        ScanMode.DEFAULT,
-      );
-    } catch (e) {
-      scanResult = 'Failed to get the barcode or QR code: $e';
-    }
-    await showScanDialog(textModel, qrModel, brModel);
-    setState(() {
-      scanRes = scanResult;
-      showTextResult = false;
-      showBarcode = false;
-      showQRCode = false;
-    });
-  }
-
-  Future<void> showScanDialog(TextEditingProvider textModel,
-      QrCodeProvider qrModel, BarcodeProvider brModel) async {
-    if (scanRes != '-1') {
-      bool isButtonClick = true;
-      showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-        ),
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                margin: REdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  children: [
-                    Text(
-                      'Scanning Result',
-                      style: bodyMedium,
-                    ),
-                    SizedBox(height: 10.h),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        margin: REdgeInsets.symmetric(horizontal: 30),
-                        child: Text(
-                          'Choose insertion type',
-                          style: bodySmall,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Container(
-                      height: 150.h,
-                      width: 260.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(11.r)),
-                      ),
-                      child: Center(child: buildResultWidget()),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              showTextResult = true;
-                              showBarcode = false;
-                              showQRCode = false;
-                            });
-                          },
-                          child: Text(
-                            'Text',
-                            style: (showTextResult == true ||
-                                    isButtonClick == true)
-                                ? const TextStyle(color: Colors.blue)
-                                : bodySmall,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isButtonClick = false;
-                              showBarcode = true;
-                              showQRCode = false;
-                              showTextResult = false;
-                            });
-                          },
-                          child: Text(
-                            'Bar Code',
-                            style: showBarcode
-                                ? const TextStyle(color: Colors.blue)
-                                : bodySmall,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isButtonClick = false;
-                              showQRCode = true;
-                              showBarcode = false;
-                              showTextResult = false;
-                            });
-                          },
-                          child: Text(
-                            'QR Code',
-                            style: showQRCode
-                                ? const TextStyle(color: Colors.blue)
-                                : bodySmall,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ReusableButton(
-                      width: 170.w,
-                      height: 45.h,
-                      text: 'Confirm',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        setState(() {
-                          if (showBarcode || showQRCode || showTextResult) {
-                            if (showQRCode) {
-                              qrModel.setShowQrcodeWidget(true);
-                              qrModel.setShowQrcodeContainerFlag(true);
-                              qrModel.generateQRCode(scanRes, 2);
-                            } else if (showBarcode) {
-                              brModel.setShowBarcodeWidget(true);
-                              brModel.setShowBarcodeContainerFlag(true);
-                              brModel.generateBarCode(scanRes, 2);
-                            } else if (showTextResult) {
-                              textModel.setShowTextEditingWidget(true);
-                              textModel.setShowTextEditingContainerFlag(true);
-                              textModel.generateTextCode(scanRes, 2);
-                            }
-                          } else {
-                            showTextResult = true;
-                            textModel.setShowTextEditingWidget(true);
-                            textModel.setShowTextEditingContainerFlag(true);
-                            textModel.generateTextCode(scanRes, 2);
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      );
-    }
-  }
-
-  Widget buildResultWidget() {
-    if (showBarcode) {
-      return BarcodeWidget(
-        barcode: Barcode.code128(),
-        data: scanRes,
-        color: Colors.black,
-        width: 200,
-        height: 80,
-      );
-    } else if (showQRCode) {
-      return QrImageView(
-        data: scanRes,
-        backgroundColor: Colors.transparent,
-        version: QrVersions.auto,
-        size: 100,
-      );
-    } else {
-      return SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          height: 150,
-          width: 250,
-          child: Center(
-            child: Text(
-              scanRes,
-              style: bodySmall,
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
 }

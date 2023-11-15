@@ -170,7 +170,7 @@ class TextEditingProvider extends ChangeNotifier {
       suffixNumber.add('');
       incrementNumber.add(0);
     }
-    /* else if (textCodeFlag == 4) {
+     else if (textCodeFlag == 4) {
         textCodes.add('01');
         selectedTextCodeIndex = textCodes.length-1;
         textBorderWidget = true;
@@ -181,13 +181,13 @@ class TextEditingProvider extends ChangeNotifier {
         updateTextUnderline.add(false);
         updateTextAlignment.add(TextAlign.center);
         updateTextFontSize.add(25);
-        SelectTime_Text_Scan_Int.add(4);
+        selectTimeTextScanInt.add(4);
         textContainerRotations.add(0.0);
         updateTextWidthSize.add(50);
         prefixNumber.add('');
         suffixNumber.add('');
         incrementNumber.add(1);
-      }*/
+      }
     notifyListeners();
   }
 

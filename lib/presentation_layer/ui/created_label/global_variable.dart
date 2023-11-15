@@ -22,11 +22,10 @@ bool textBorderWidget = false;
 int selectedTextCodeIndex = 0;
 
 // serial number
-bool showSerialWidget = false;
-bool showSerialContainerFlag = false;
 List<String> prefixNumber = [];
 List<String> suffixNumber = [];
 List<int> incrementNumber = [];
+bool showSerialContainerFlag = false;
 int selectedSerialCodeIndex = 0;
 
 // Multiple Barcode function variable
@@ -87,3 +86,5 @@ List<int> selectTimeTextScanInt = [];
 bool showDateContainerWidget = false;
 bool showDateContainerFlag = false;
 int selectedTimeCodeIndex = 0;
+
+

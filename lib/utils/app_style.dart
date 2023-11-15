@@ -122,7 +122,7 @@ class ReusableButton extends StatelessWidget {
     required this.onPressed,
     this.width = double.infinity,
     this.height = 50.0,
-    this.buttonColor = Colors.blue,
+    this.buttonColor = primaryBlue,
   });
 
   @override

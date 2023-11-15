@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/app_style.dart';
-import '../../../../utils/custome_slider.dart';
 import '../../../../utils/utils.dart';
 import '../../../providers/on_tap_function_provider.dart';
 import '../global_variable.dart';

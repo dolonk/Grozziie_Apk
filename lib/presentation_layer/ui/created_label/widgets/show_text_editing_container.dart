@@ -45,7 +45,6 @@ class ShowTextEditingContainer extends StatelessWidget {
                           Image.asset('assets/images/line_c.png'),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/delete_icon.png', 'Delete', () {
-                            //textModel.setShowTextEditingContainerFlag(false);
                             textModel.deleteTextCode(selectedTextCodeIndex);
                             textModel.setShowTextEditingContainerFlag(false);
                           }),
@@ -59,7 +58,8 @@ class ShowTextEditingContainer extends StatelessWidget {
                               'assets/icons/lock_icon.png', 'Lock', () {}),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/rotated_icon.png', 'Rotate', () {
-                            onTouch.rotateFunction(textContainerRotations, selectedTextCodeIndex);
+                            onTouch.rotateFunction(
+                                textContainerRotations, selectedTextCodeIndex);
                           }),
                         ],
                       ),
