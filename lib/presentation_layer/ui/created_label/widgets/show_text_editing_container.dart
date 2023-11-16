@@ -197,7 +197,6 @@ class ShowTextEditingContainer extends StatelessWidget {
                         value: updateTextFontSize[selectedTextCodeIndex],
                         onChanged: (value) {
                           textModel.changeFontSize(value);
-                          textModel.textValueSize = value;
                         },
                       ),
                       Container(

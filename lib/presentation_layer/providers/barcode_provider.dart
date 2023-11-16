@@ -9,8 +9,6 @@ class BarcodeProvider extends ChangeNotifier {
   double barcodeHeight = 80.0;
   double minBarcodeWidth = 80.0;
   double minBarcodeHeight = 50.0;
-  Map<int, TextEditingController> barCodesControllers = {};
-  FocusNode inputFocusNode = FocusNode();
   bool showBarData = true;
   bool isBarcodeTextCleared = true;
   String encodingType = 'Code128';

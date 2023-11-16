@@ -8,8 +8,6 @@ class QrCodeProvider extends ChangeNotifier {
   double minQrcodeSize = 50.0;
   bool isQrCodesTextCleared = true;
 
-  Map<int, TextEditingController> qrCodesControllers = {};
-
   void setShowQrcodeContainerFlag(bool flag) {
     showQrcodeContainerFlag = flag;
     notifyListeners();

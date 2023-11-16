@@ -5,10 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../ui/created_label/global_variable.dart';
 
-
 class TextEditingProvider extends ChangeNotifier {
   String labelText = 'Double click here ';
-  final TextEditingController textEditingController = TextEditingController();
   bool isBold = false;
   bool isItalic = false;
   bool? isUnderline = false;
@@ -16,9 +14,8 @@ class TextEditingProvider extends ChangeNotifier {
   double textFontSize = 25.0;
   double textValueSize = 25;
   String currentText = '';
-  List<String> undoStack = [];
-
-
+  bool isTextCleared = true;
+  /*List<String> undoStack = [];*/
 
   void setShowTextEditingWidget(bool flag) {
     showTextEditingWidget = flag;
@@ -30,7 +27,7 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void movingWidget(DragUpdateDetails details, int textIndex){
+  void movingWidget(DragUpdateDetails details, int textIndex) {
     textCodeOffsets[textIndex] = Offset(
       textCodeOffsets[textIndex].dx + details.delta.dx,
       textCodeOffsets[textIndex].dy + details.delta.dy,
@@ -52,61 +49,54 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void toggleBold() {
-    final previousText = textEditingController.text;
     isBold = !isBold;
     if (isBold) {
       updateTextBold[selectedTextCodeIndex] = true;
     } else {
       updateTextBold[selectedTextCodeIndex] = false;
     }
-    undoStack.add(previousText);
+    //undoStack.add(previousText);
     notifyListeners();
   }
 
   void toggleUnderline() {
-    final previousText = textEditingController.text;
     isUnderline = !isUnderline!;
     if (isUnderline!) {
       updateTextUnderline[selectedTextCodeIndex] = true;
     } else {
       updateTextUnderline[selectedTextCodeIndex] = false;
     }
-    undoStack.add(previousText);
-    ;
+    //undoStack.add(previousText);
+
     notifyListeners();
   }
 
   void toggleItalic() {
-    final previousText = textEditingController.text;
     isItalic = !isItalic;
     if (isItalic) {
       updateTextItalic[selectedTextCodeIndex] = true;
     } else {
       updateTextItalic[selectedTextCodeIndex] = false;
     }
-    undoStack.add(previousText);
+    //undoStack.add(previousText);
     notifyListeners();
   }
 
   void changeAlignment(TextAlign alignment) {
-    final previousText = textEditingController.text;
     textAlignment = alignment;
     updateTextAlignment[selectedTextCodeIndex] = alignment;
-    undoStack.add(previousText);
+    //undoStack.add(previousText);
     notifyListeners();
   }
 
   void changeFontSize(double fontSize) {
-    final previousText = textEditingController.text;
     textFontSize = fontSize;
     if (fontSize == textFontSize) {
       updateTextFontSize[selectedTextCodeIndex] = fontSize;
     } else {
-      updateTextFontSize[selectedTextCodeIndex] = 15;
+      updateTextFontSize[selectedTextCodeIndex] = 25;
     }
-    undoStack.add(previousText);
     notifyListeners();
   }
 
@@ -127,28 +117,26 @@ class TextEditingProvider extends ChangeNotifier {
       prefixNumber.add('');
       suffixNumber.add('');
       incrementNumber.add(0);
-    }
-    else if (textCodeFlag == 2) {
-        textCodes.add(textValue);
-        selectedTextCodeIndex = textCodes.length - 1;
-        textBorderWidget = true;
-        textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
-        updateTextBold.add(false);
-        updateTextItalic.add(false);
-        updateTextUnderline.add(false);
-        updateTextAlignment.add(TextAlign.left);
-        updateTextFontSize.add(15.0);
-        selectTimeTextScanInt.add(2);
-        textContainerRotations.add(0.0);
-        updateTextWidthSize.add(130);
-        prefixNumber.add('');
-        suffixNumber.add('');
-        incrementNumber.add(0);
-      }
-    else if (textCodeFlag == 3) {
+    } else if (textCodeFlag == 2) {
+      textCodes.add(textValue);
+      selectedTextCodeIndex = textCodes.length - 1;
+      textBorderWidget = true;
+      textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
+      updateTextBold.add(false);
+      updateTextItalic.add(false);
+      updateTextUnderline.add(false);
+      updateTextAlignment.add(TextAlign.left);
+      updateTextFontSize.add(15.0);
+      selectTimeTextScanInt.add(2);
+      textContainerRotations.add(0.0);
+      updateTextWidthSize.add(130);
+      prefixNumber.add('');
+      suffixNumber.add('');
+      incrementNumber.add(0);
+    } else if (textCodeFlag == 3) {
       DateTime currentTime = DateTime.now();
       String formattedDateTime =
-      DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
       String completeTextValue = formattedDateTime;
       textCodes.add(completeTextValue);
       selectedTextCodeIndex = textCodes.length - 1;
@@ -165,25 +153,24 @@ class TextEditingProvider extends ChangeNotifier {
       prefixNumber.add('');
       suffixNumber.add('');
       incrementNumber.add(0);
+    } else if (textCodeFlag == 4) {
+      textCodes.add('01');
+      selectedTextCodeIndex = textCodes.length - 1;
+      textBorderWidget = true;
+      showSerialContainerFlag = true;
+      textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
+      updateTextBold.add(false);
+      updateTextItalic.add(false);
+      updateTextUnderline.add(false);
+      updateTextAlignment.add(TextAlign.center);
+      updateTextFontSize.add(25);
+      selectTimeTextScanInt.add(4);
+      textContainerRotations.add(0.0);
+      updateTextWidthSize.add(50);
+      prefixNumber.add('');
+      suffixNumber.add('');
+      incrementNumber.add(1);
     }
-     else if (textCodeFlag == 4) {
-        textCodes.add('01');
-        selectedTextCodeIndex = textCodes.length-1;
-        textBorderWidget = true;
-        showSerialContainerFlag = true;
-        textCodeOffsets.add(Offset(0, (textCodes.length * 5).toDouble()));
-        updateTextBold.add(false);
-        updateTextItalic.add(false);
-        updateTextUnderline.add(false);
-        updateTextAlignment.add(TextAlign.center);
-        updateTextFontSize.add(25);
-        selectTimeTextScanInt.add(4);
-        textContainerRotations.add(0.0);
-        updateTextWidthSize.add(50);
-        prefixNumber.add('');
-        suffixNumber.add('');
-        incrementNumber.add(1);
-      }
     notifyListeners();
   }
 
@@ -233,18 +220,12 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // for show input data dialog
-  bool isTextCleared = true;
-  bool isSerialTextCleared = true;
-  Map<int, TextEditingController> textControllers = {};
-  Map<int, TextEditingController> serialTextControllers = {};
-
   void showTextInputDialog(int selectIndex, BuildContext context) {
     if (!textControllers.containsKey(selectIndex)) {
       textControllers[selectIndex] = TextEditingController(text: "");
     }
     final TextEditingController? inputTextEditingController =
-    textControllers[selectIndex];
+        textControllers[selectIndex];
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -316,6 +297,4 @@ class TextEditingProvider extends ChangeNotifier {
       }
     });
   }
-
-
 }

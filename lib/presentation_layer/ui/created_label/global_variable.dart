@@ -2,9 +2,17 @@ import 'dart:core';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:grozziieapk/presentation_layer/data_layer/remote_server/model/background_image/background_categories.dart';
 
-FocusNode inputFocusNode = FocusNode();
+
 double screenWidth = ScreenUtil().screenWidth;
+
+// TextEditingController variable
+FocusNode inputFocusNode = FocusNode();
+Map<int, TextEditingController> textControllers = {};
+Map<int, TextEditingController> serialTextControllers = {};
+Map<int, TextEditingController> barCodesControllers = {};
+Map<int, TextEditingController> qrCodesControllers = {};
 
 //Multiple Text  function variable
 List<String> textCodes = [];
@@ -115,3 +123,18 @@ List<double> updateSliderLineWidth = [];
 List<bool> isDottedLineUpdate = [];
 List<double> updateLineWidth = [];
 int selectedLineCodeIndex = 0;
+
+
+
+//background image
+int? selectedImageHeight;
+int? selectedImageWidth;
+dynamic selectedImage;
+String? selectedBackgroundCategory;
+bool showBackgroundImageContainerWidget = false;
+bool showBackgroundImageContainerFlag = false;
+bool isLoadingImages = false;
+bool isConnected = true;
+bool isLoadingDataCheck = false;
+List<BackgroundCategoryModelClass> fetchedCategories = [];
+List<Map<String, dynamic>> fetchedImages = [];
