@@ -14,8 +14,8 @@ import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_botto
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_figure_container.dart';
-
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_image_take_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_line_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_qrcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_serial_number_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_table_editing_container.dart';
@@ -25,6 +25,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/utils.dart';
 import '../../providers/date_time_editing_provider.dart';
+import '../../providers/line_provider.dart';
 import '../../providers/on_tap_function_provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
@@ -97,6 +98,9 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<FigureProvider>(
           create: (_) => FigureProvider(),
         ),
+        ChangeNotifierProvider<LineProvide>(
+          create: (_) => LineProvide(),
+        ),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
@@ -123,49 +127,55 @@ class _CreateLabelState extends State<CreateLabel> {
                                             return Consumer<FigureProvider>(
                                               builder: (context, figureModel,
                                                   child) {
-                                                return Column(
-                                                  children: [
-                                                    Expanded(
-                                                        child:
-                                                            TemplateContainer(
-                                                                context:
-                                                                    context)),
-                                                    if (showTextEditingContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowTextEditingContainer())
-                                                    else if (showBarcodeContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowBarcodeContainer())
-                                                    else if (showQrcodeContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowQrcodeContainer())
-                                                    else if (showTableContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowTableEditingContainer())
-                                                    else if (showDateContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowDateTimeEditingContainer())
-                                                    else if (showImageContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowImageTakeContainer())
-                                                    else if (showSerialContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowSerialNumberContainer())
-                                                    else if (showFigureContainerFlag)
-                                                      const Expanded(
-                                                          child:
-                                                              ShowFigureContainer())
-                                                    else
-                                                      Expanded(
-                                                        child:
-                                                            buildOptionsContainer(
+                                                return Consumer<LineProvide>(
+                                                  builder: (context, lineModel,
+                                                      child) {
+                                                    return Column(
+                                                      children: [
+                                                        Expanded(
+                                                            child:
+                                                                TemplateContainer(
+                                                                    context:
+                                                                        context)),
+                                                        if (showTextEditingContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowTextEditingContainer())
+                                                        else if (showBarcodeContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowBarcodeContainer())
+                                                        else if (showQrcodeContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowQrcodeContainer())
+                                                        else if (showTableContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowTableEditingContainer())
+                                                        else if (showDateContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowDateTimeEditingContainer())
+                                                        else if (showImageContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowImageTakeContainer())
+                                                        else if (showSerialContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowSerialNumberContainer())
+                                                        else if (showFigureContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowFigureContainer())
+                                                        else if (showLineContainerFlag)
+                                                          const Expanded(
+                                                              child:
+                                                                  ShowLineContainer())
+                                                        else
+                                                          Expanded(
+                                                            child: buildOptionsContainer(
                                                                 context,
                                                                 textModel,
                                                                 dateTimeModel,
@@ -175,9 +185,12 @@ class _CreateLabelState extends State<CreateLabel> {
                                                                 imageModel,
                                                                 scanModel,
                                                                 serialModel,
-                                                                figureModel),
-                                                      ),
-                                                  ],
+                                                                figureModel,
+                                                                lineModel),
+                                                          ),
+                                                      ],
+                                                    );
+                                                  },
                                                 );
                                               },
                                             );
@@ -215,7 +228,8 @@ class _CreateLabelState extends State<CreateLabel> {
       ImageTakeProvider imageModel,
       ScanProvider scanModel,
       SerialProvider serialModel,
-      FigureProvider figureModel) {
+      FigureProvider figureModel,
+      LineProvide lineModel) {
     return Stack(children: [
       Container(
         padding: REdgeInsets.only(bottom: 30.h),
@@ -304,7 +318,7 @@ class _CreateLabelState extends State<CreateLabel> {
                           }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/time.png', 'Time', () {
-                            dateTimeModel.setShowDateContainerWidget(true);
+                            textModel.setShowTextEditingWidget(true);
                             dateTimeModel.setDateTimeContainerFlag(true);
                             textModel.generateTextCode(
                                 dateTimeModel.getFormattedDateTime(), 3);
@@ -330,7 +344,11 @@ class _CreateLabelState extends State<CreateLabel> {
                             figureModel.generateFigureCode();
                           }),
                           ReuseAbleClass().buildIconButton(
-                              'assets/icons/line.png', 'Line', () {}),
+                              'assets/icons/line.png', 'Line', () {
+                            lineModel.setShowLineWidget(true);
+                            lineModel.setShowLineContainerFlag(true);
+                            lineModel.generateLineCode();
+                          }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/insert_excel.png',
                               'Insert Excel',

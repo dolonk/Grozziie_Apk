@@ -81,7 +81,7 @@ bool showQRCode = false;
 
 // Multiple Time Date function Variable
 List<int> selectTimeTextScanInt = [];
-bool showDateContainerWidget = false;
+//bool showDateContainerWidget = false;
 bool showDateContainerFlag = false;
 int selectedTimeCodeIndex = 0;
 
@@ -102,3 +102,16 @@ List<double> updateFigureWidth = [];
 List<double> updateFigureHeight = [];
 List<double> figureCodesContainerRotations = [];
 int selectedFigureCodeIndex = 0;
+
+// Line Widget Variable
+bool showLineWidget = false;
+bool showLineContainerFlag = false;
+bool lineBorderWidget = false;
+//Multiple line function variable List
+List<String> lineCodes = [];
+List<Offset> lineOffsets = [];
+List<double> lineCodesContainerRotations = [];
+List<double> updateSliderLineWidth = [];
+List<bool> isDottedLineUpdate = [];
+List<double> updateLineWidth = [];
+int selectedLineCodeIndex = 0;

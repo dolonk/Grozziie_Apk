@@ -70,7 +70,8 @@ class ShowFigureContainer extends StatelessWidget {
                           width: screenWidth,
                           color: Colors.white,
                           child: Padding(
-                            padding: REdgeInsets.symmetric(horizontal: 12,vertical: 20),
+                            padding: REdgeInsets.symmetric(
+                                horizontal: 12, vertical: 20),
                             child: SizedBox(
                               height: 250.h,
                               width: double.infinity,

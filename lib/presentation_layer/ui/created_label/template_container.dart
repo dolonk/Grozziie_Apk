@@ -11,10 +11,12 @@ import 'package:grozziieapk/presentation_layer/serial_provider.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/barcode_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/figure_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/image_take_container_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/line_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/qrcode_container_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/show_table_editing_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_container_class.dart';
 import 'package:provider/provider.dart';
+import '../../providers/line_provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
 
@@ -45,70 +47,86 @@ class TemplateContainer extends StatelessWidget {
                                   builder: (context, serialModel, child) {
                                     return Consumer<FigureProvider>(
                                       builder: (context, figureModel, child) {
-                                        return Container(
-                                          height: containerHeight,
-                                          width: containerWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border:
-                                                Border.all(color: Colors.black),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(13)),
-                                          ),
-                                          child: Stack(
-                                            children: [
-                                              if (showFigureWidget)
-                                                for (var i = 0;
-                                                    i < figureCodes.length;
-                                                    i++)
-                                                  figureWidgetModel(
-                                                      i, figureModel, onTouchModel),
-                                              if (showTextEditingWidget ||
-                                                  showDateContainerWidget)
-                                                for (var i = 0;
-                                                    i < textCodes.length; i++)
-                                                  textDateWidgetModel(
-                                                    i,
-                                                    textModel,
-                                                    dateTimeModel,
-                                                    serialModel,
-                                                    onTouchModel,
-                                                  ),
-                                              if (showBarcodeWidget)
-                                                for (var i = 0;
-                                                    i < barCodes.length;
-                                                    i++)
-                                                  barcodeWidgetModel(
-                                                      i,
-                                                      barcodeModel,
-                                                      onTouchModel),
-                                              if (showQrcodeWidget)
-                                                for (var i = 0;
-                                                    i < qrCodes.length;
-                                                    i++)
-                                                  qrcodeWidgetModel(
-                                                      i,
-                                                      qrCodeModel,
-                                                      onTouchModel),
-                                              if (showTableWidget)
-                                                for (var i = 0;
-                                                    i < tableCodes.length;
-                                                    i++)
-                                                  tableWidgetModel(i,
-                                                      tableModel, onTouchModel),
-                                              if (showImageWidget)
-                                                for (var i = 0;
-                                                    i < imageCodes.length;
-                                                    i++)
-                                                  if (imageCodes[i] !=
-                                                      'demoImage')
-                                                    imageWidgetModel(
+                                        return Consumer<LineProvide>(
+                                          builder: (context, lineModel, child) {
+                                            return Container(
+                                              height: containerHeight,
+                                              width: containerWidth,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.black),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(13)),
+                                              ),
+                                              child: Stack(
+                                                children: [
+                                                  if (showFigureWidget)
+                                                    for (var i = 0;
+                                                        i < figureCodes.length;
+                                                        i++)
+                                                      figureWidgetModel(
+                                                          i,
+                                                          figureModel,
+                                                          onTouchModel),
+                                                  if (showLineWidget)
+                                                    for (var i = 0;
+                                                        i < lineCodes.length;
+                                                        i++)
+                                                      lineWidgetModel(
+                                                          i,
+                                                          lineModel,
+                                                          onTouchModel),
+                                                  if (showTextEditingWidget)
+                                                    for (var i = 0;
+                                                        i < textCodes.length;
+                                                        i++)
+                                                      textDateWidgetModel(
                                                         i,
-                                                        imageModel,
-                                                        onTouchModel)
-                                            ],
-                                          ),
+                                                        textModel,
+                                                        dateTimeModel,
+                                                        serialModel,
+                                                        onTouchModel,
+                                                      ),
+                                                  if (showBarcodeWidget)
+                                                    for (var i = 0;
+                                                        i < barCodes.length;
+                                                        i++)
+                                                      barcodeWidgetModel(
+                                                          i,
+                                                          barcodeModel,
+                                                          onTouchModel),
+                                                  if (showQrcodeWidget)
+                                                    for (var i = 0;
+                                                        i < qrCodes.length;
+                                                        i++)
+                                                      qrcodeWidgetModel(
+                                                          i,
+                                                          qrCodeModel,
+                                                          onTouchModel),
+                                                  if (showTableWidget)
+                                                    for (var i = 0;
+                                                        i < tableCodes.length;
+                                                        i++)
+                                                      tableWidgetModel(
+                                                          i,
+                                                          tableModel,
+                                                          onTouchModel),
+                                                  if (showImageWidget)
+                                                    for (var i = 0;
+                                                        i < imageCodes.length;
+                                                        i++)
+                                                      if (imageCodes[i] !=
+                                                          'demoImage')
+                                                        imageWidgetModel(
+                                                            i,
+                                                            imageModel,
+                                                            onTouchModel)
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         );
                                       },
                                     );
@@ -300,6 +318,31 @@ class TemplateContainer extends StatelessWidget {
             isRoundRectangale: isRoundRectangaleUpdate[i],
             isCircularFixed: isCircularFixedUpdate[i],
             isCircularNotFixed: isCircularNotFixedUpdate[i],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget lineWidgetModel(
+      int i, LineProvide lineModel, OnTouchFunctionProvider onTouchModel) {
+    return Positioned(
+      left: lineOffsets[i].dx,
+      top: lineOffsets[i].dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          lineModel.movingWidget(details, i);
+        },
+        onTapDown: (details) async {
+          selectedFigureCodeIndex = i;
+          await onTouchModel.showBorderContainerFlag('line', true);
+        },
+        child: Transform.rotate(
+          angle: -lineCodesContainerRotations[i],
+          child: LineWidgetContainerClass(
+            selectIndex: i,
+            borderLineWidth: updateSliderLineWidth[i],
+            isDottedLine: isDottedLineUpdate[i],
           ),
         ),
       ),

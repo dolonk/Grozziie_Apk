@@ -24,10 +24,10 @@ class DateTimeProvider with ChangeNotifier {
   bool dateFormat = false;
   bool showStyleContainer = false;
 
-  void setShowDateContainerWidget(bool flag) {
+  /*void setShowDateContainerWidget(bool flag) {
     showDateContainerWidget = flag;
     notifyListeners();
-  }
+  }*/
 
   void setDateTimeContainerFlag(bool flag) {
     showDateContainerFlag = flag;

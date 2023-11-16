@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../ui/created_label/global_variable.dart';
 
 class OnTouchFunctionProvider extends ChangeNotifier {
+
   Future<void> showBorderContainerFlag(String flagToSet, bool value) async {
     if (flagToSet == 'textEditing') {
       textBorderWidget = value;
@@ -23,6 +24,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'barcode') {
       barcodeBorderWidget = value;
       showBarcodeContainerFlag = value;
@@ -39,6 +42,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'qrcode') {
       qrcodeBorderWidget = value;
       showQrcodeContainerFlag = value;
@@ -55,6 +60,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'table') {
       tableBorderWidget = value;
       showTableContainerFlag = value;
@@ -71,6 +78,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'image') {
       imageBorderWidget = value;
       showImageContainerFlag = value;
@@ -87,6 +96,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'date') {
       textBorderWidget = value;
       showDateContainerFlag = value;
@@ -103,6 +114,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showSerialContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     } else if (flagToSet == 'serial') {
       textBorderWidget = value;
       showSerialContainerFlag = value;
@@ -119,7 +132,9 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showDateContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
-    }else if (flagToSet == 'figure') {
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
+    } else if (flagToSet == 'figure') {
       figureBorderWidget = value;
       showFigureContainerFlag = value;
 
@@ -135,6 +150,26 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       imageBorderWidget = false;
       showImageContainerFlag = false;
       showDateContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
+    }else if (flagToSet == 'line') {
+      lineBorderWidget = value;
+      showLineContainerFlag = value;
+
+      textBorderWidget = false;
+      showSerialContainerFlag = false;
+      showTextEditingContainerFlag = false;
+      barcodeBorderWidget = false;
+      showBarcodeContainerFlag = false;
+      qrcodeBorderWidget = false;
+      showQrcodeContainerFlag = false;
+      tableBorderWidget = false;
+      showTableContainerFlag = false;
+      imageBorderWidget = false;
+      showImageContainerFlag = false;
+      showDateContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     }
     notifyListeners();
   }
