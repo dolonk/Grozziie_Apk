@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/figure_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/image_take_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/scan_provider.dart';
@@ -12,6 +13,8 @@ import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_b
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_figure_container.dart';
+
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_image_take_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_qrcode_editing_container.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_serial_number_container.dart';
@@ -67,9 +70,6 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<OnTouchFunctionProvider>(
           create: (_) => OnTouchFunctionProvider(),
         ),
-        ChangeNotifierProvider<OnTouchFunctionProvider>(
-          create: (_) => OnTouchFunctionProvider(),
-        ),
         ChangeNotifierProvider<TextEditingProvider>(
           create: (_) => TextEditingProvider(),
         ),
@@ -94,6 +94,9 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<SerialProvider>(
           create: (_) => SerialProvider(),
         ),
+        ChangeNotifierProvider<FigureProvider>(
+          create: (_) => FigureProvider(),
+        ),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
@@ -117,54 +120,66 @@ class _CreateLabelState extends State<CreateLabel> {
                                         return Consumer<SerialProvider>(
                                           builder:
                                               (context, serialModel, child) {
-                                            return Column(
-                                              children: [
-                                                Expanded(
-                                                    child: TemplateContainer(
-                                                        context: context)),
-                                                if (showTextEditingContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowTextEditingContainer())
-                                                else if (showBarcodeContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowBarcodeContainer())
-                                                else if (showQrcodeContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowQrcodeContainer())
-                                                else if (showTableContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowTableEditingContainer())
-                                                else if (showDateContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowDateTimeEditingContainer())
-                                                else if (showImageContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowImageTakeContainer())
-                                                else if (showSerialContainerFlag)
-                                                  const Expanded(
-                                                      child:
-                                                          ShowSerialNumberContainer())
-                                                else
-                                                  Expanded(
-                                                    child:
-                                                        buildOptionsContainer(
-                                                            context,
-                                                            textModel,
-                                                            dateTimeModel,
-                                                            barcodeModel,
-                                                            qrCodeModel,
-                                                            tableModel,
-                                                            imageModel,
-                                                            scanModel,
-                                                            serialModel),
-                                                  ),
-                                              ],
+                                            return Consumer<FigureProvider>(
+                                              builder: (context, figureModel,
+                                                  child) {
+                                                return Column(
+                                                  children: [
+                                                    Expanded(
+                                                        child:
+                                                            TemplateContainer(
+                                                                context:
+                                                                    context)),
+                                                    if (showTextEditingContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowTextEditingContainer())
+                                                    else if (showBarcodeContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowBarcodeContainer())
+                                                    else if (showQrcodeContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowQrcodeContainer())
+                                                    else if (showTableContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowTableEditingContainer())
+                                                    else if (showDateContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowDateTimeEditingContainer())
+                                                    else if (showImageContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowImageTakeContainer())
+                                                    else if (showSerialContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowSerialNumberContainer())
+                                                    else if (showFigureContainerFlag)
+                                                      const Expanded(
+                                                          child:
+                                                              ShowFigureContainer())
+                                                    else
+                                                      Expanded(
+                                                        child:
+                                                            buildOptionsContainer(
+                                                                context,
+                                                                textModel,
+                                                                dateTimeModel,
+                                                                barcodeModel,
+                                                                qrCodeModel,
+                                                                tableModel,
+                                                                imageModel,
+                                                                scanModel,
+                                                                serialModel,
+                                                                figureModel),
+                                                      ),
+                                                  ],
+                                                );
+                                              },
                                             );
                                           },
                                         );
@@ -199,7 +214,8 @@ class _CreateLabelState extends State<CreateLabel> {
       TableProvider tableModel,
       ImageTakeProvider imageModel,
       ScanProvider scanModel,
-      SerialProvider serialModel) {
+      SerialProvider serialModel,
+      FigureProvider figureModel) {
     return Stack(children: [
       Container(
         padding: REdgeInsets.only(bottom: 30.h),
@@ -308,7 +324,11 @@ class _CreateLabelState extends State<CreateLabel> {
                             serialModel.setShowSerialContainerFlag(true);
                           }),
                           ReuseAbleClass().buildIconButton(
-                              'assets/icons/shape.png', 'Shape', () {}),
+                              'assets/icons/shape.png', 'Shape', () {
+                            figureModel.setShowFigureWidget(true);
+                            figureModel.setShowFigureContainerFlag(true);
+                            figureModel.generateFigureCode();
+                          }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/line.png', 'Line', () {}),
                           ReuseAbleClass().buildIconButton(

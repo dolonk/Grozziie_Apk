@@ -73,13 +73,11 @@ bool showImageContainerFlag = false;
 bool imageBorderWidget = false;
 int selectedImageCodeIndex = 0;
 
-
 //scan function variable
 String scanRes = '';
 bool showTextResult = false;
 bool showBarcode = false;
 bool showQRCode = false;
-
 
 // Multiple Time Date function Variable
 List<int> selectTimeTextScanInt = [];
@@ -87,4 +85,20 @@ bool showDateContainerWidget = false;
 bool showDateContainerFlag = false;
 int selectedTimeCodeIndex = 0;
 
-
+// Figure Widget Variable
+bool showFigureWidget = false;
+bool showFigureContainerFlag = false;
+bool figureBorderWidget = false;
+bool fixedFigureSize = false;
+//Multiple Figure function variable List
+List<String> figureCodes = [];
+List<Offset> figureOffsets = [];
+List<bool> isRectangaleUpdate = [];
+List<bool> isRoundRectangaleUpdate = [];
+List<bool> isCircularFixedUpdate = [];
+List<bool> isCircularNotFixedUpdate = [];
+List<double> updateFigureLineWidthSize = [];
+List<double> updateFigureWidth = [];
+List<double> updateFigureHeight = [];
+List<double> figureCodesContainerRotations = [];
+int selectedFigureCodeIndex = 0;

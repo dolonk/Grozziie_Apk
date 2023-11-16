@@ -52,10 +52,6 @@ class TextEditingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onTouchFunction(TapDownDetails details) {
-    textBorderWidget = true;
-    notifyListeners();
-  }
 
   void toggleBold() {
     final previousText = textEditingController.text;

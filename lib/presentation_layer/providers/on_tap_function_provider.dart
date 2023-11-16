@@ -21,6 +21,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showImageContainerFlag = false;
       showDateContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'barcode') {
       barcodeBorderWidget = value;
       showBarcodeContainerFlag = value;
@@ -35,6 +37,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       imageBorderWidget = false;
       showImageContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'qrcode') {
       qrcodeBorderWidget = value;
       showQrcodeContainerFlag = value;
@@ -49,6 +53,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       imageBorderWidget = false;
       showImageContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'table') {
       tableBorderWidget = value;
       showTableContainerFlag = value;
@@ -63,6 +69,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       imageBorderWidget = false;
       showImageContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'image') {
       imageBorderWidget = value;
       showImageContainerFlag = value;
@@ -77,6 +85,8 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       tableBorderWidget = false;
       showTableContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'date') {
       textBorderWidget = value;
       showDateContainerFlag = value;
@@ -91,10 +101,30 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       imageBorderWidget = false;
       showImageContainerFlag = false;
       showSerialContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
     } else if (flagToSet == 'serial') {
       textBorderWidget = value;
       showSerialContainerFlag = value;
 
+      showTextEditingContainerFlag = false;
+      barcodeBorderWidget = false;
+      showBarcodeContainerFlag = false;
+      qrcodeBorderWidget = false;
+      showQrcodeContainerFlag = false;
+      tableBorderWidget = false;
+      showTableContainerFlag = false;
+      imageBorderWidget = false;
+      showImageContainerFlag = false;
+      showDateContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
+    }else if (flagToSet == 'figure') {
+      figureBorderWidget = value;
+      showFigureContainerFlag = value;
+
+      textBorderWidget = false;
+      showSerialContainerFlag = false;
       showTextEditingContainerFlag = false;
       barcodeBorderWidget = false;
       showBarcodeContainerFlag = false;
