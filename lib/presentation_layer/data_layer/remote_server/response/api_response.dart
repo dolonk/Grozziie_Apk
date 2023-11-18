@@ -18,3 +18,22 @@ class ApiResponse<T> {
     return "Status : $status \n Message : $message \n Data: $data";
   }
 }
+
+/*
+class ApiResponse<T> {
+  final Status status;
+  final T? data;
+  final String? message;
+
+  ApiResponse(this.status, this.data, this.message);
+
+  ApiResponse.loading() : status = Status.LOADING, data = null, message = null;
+
+  ApiResponse.completed(this.data)
+      : status = Status.COMPLETED,
+        message = null;
+
+  ApiResponse.error(this.message)
+      : status = Status.ERROR,
+        data = null;
+}*/

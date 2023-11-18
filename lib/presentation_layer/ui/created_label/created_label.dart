@@ -55,7 +55,7 @@ class _CreateLabelState extends State<CreateLabel> {
     dateTimeModel.selectDate = DateTime.now();
     dateTimeModel.selectedFormatDate = DateFormat.yMMMMd();
     imageModel.imagePicker = ImagePicker();
-    backgroundImageModel.fetchBackgroundCategoriesApi();
+    //backgroundImageModel.fetchBackgroundCategoriesApi();
     super.initState();
   }
 
@@ -155,63 +155,63 @@ class _CreateLabelState extends State<CreateLabel> {
                                                             Expanded(
                                                                 child: TemplateContainer(
                                                                     context:
-                                                                        context)),
+                                                                    context)),
                                                             if (showTextEditingContainerFlag)
                                                               const Expanded(
                                                                   child:
-                                                                      ShowTextEditingContainer())
+                                                                  ShowTextEditingContainer())
                                                             else if (showBarcodeContainerFlag)
                                                               const Expanded(
                                                                   child:
-                                                                      ShowBarcodeContainer())
+                                                                  ShowBarcodeContainer())
                                                             else if (showQrcodeContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowQrcodeContainer())
-                                                            else if (showTableContainerFlag)
-                                                              const Expanded(
-                                                                  child:
+                                                                const Expanded(
+                                                                    child:
+                                                                    ShowQrcodeContainer())
+                                                              else if (showTableContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
                                                                       ShowTableEditingContainer())
-                                                            else if (showDateContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowDateTimeEditingContainer())
-                                                            else if (showImageContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowImageTakeContainer())
-                                                            else if (showSerialContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowSerialNumberContainer())
-                                                            else if (showFigureContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowFigureContainer())
-                                                            else if (showLineContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowLineContainer())
-                                                            else if (showBackgroundImageContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowBackgroundImageContainer())
-                                                            else
-                                                              Expanded(
-                                                                child: buildOptionsContainer(
-                                                                    context,
-                                                                    textModel,
-                                                                    dateTimeModel,
-                                                                    barcodeModel,
-                                                                    qrCodeModel,
-                                                                    tableModel,
-                                                                    imageModel,
-                                                                    scanModel,
-                                                                    serialModel,
-                                                                    figureModel,
-                                                                    lineModel,
-                                                                    bImageModel),
-                                                              ),
+                                                                else if (showDateContainerFlag)
+                                                                    const Expanded(
+                                                                        child:
+                                                                        ShowDateTimeEditingContainer())
+                                                                  else if (showImageContainerFlag)
+                                                                      const Expanded(
+                                                                          child:
+                                                                          ShowImageTakeContainer())
+                                                                    else if (showSerialContainerFlag)
+                                                                        const Expanded(
+                                                                            child:
+                                                                            ShowSerialNumberContainer())
+                                                                      else if (showFigureContainerFlag)
+                                                                          const Expanded(
+                                                                              child:
+                                                                              ShowFigureContainer())
+                                                                        else if (showLineContainerFlag)
+                                                                            const Expanded(
+                                                                                child:
+                                                                                ShowLineContainer())
+                                                                          else if (showBackgroundImageContainerFlag)
+                                                                              const Expanded(
+                                                                                  child:
+                                                                                  ShowBackgroundImageContainer())
+                                                                            else
+                                                                              Expanded(
+                                                                                child: buildOptionsContainer(
+                                                                                    context,
+                                                                                    textModel,
+                                                                                    dateTimeModel,
+                                                                                    barcodeModel,
+                                                                                    qrCodeModel,
+                                                                                    tableModel,
+                                                                                    imageModel,
+                                                                                    scanModel,
+                                                                                    serialModel,
+                                                                                    figureModel,
+                                                                                    lineModel,
+                                                                                    bImageModel),
+                                                                              ),
                                                           ],
                                                         );
                                                       },
@@ -239,7 +239,7 @@ class _CreateLabelState extends State<CreateLabel> {
           },
         ),
         bottomNavigationBar:
-            MyBottomAppBar().buildBottomAppBarButton(screenWidth),
+        MyBottomAppBar().buildBottomAppBarButton(screenWidth),
       ),
     );
   }
@@ -341,7 +341,7 @@ class _CreateLabelState extends State<CreateLabel> {
                               'assets/icons/scan.png', 'Scan', () {
                             ScanService(scanModel, context)
                                 .scanTextBarcodeQrcode(context, textModel,
-                                    barcodeModel, qrCodeModel);
+                                barcodeModel, qrCodeModel);
                           }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/time.png', 'Time', () {
@@ -359,11 +359,11 @@ class _CreateLabelState extends State<CreateLabel> {
                         [
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/serial_number.png', 'Serial Number',
-                              () {
-                            textModel.setShowTextEditingWidget(true);
-                            textModel.generateTextCode('01', 4);
-                            serialModel.setShowSerialContainerFlag(true);
-                          }),
+                                  () {
+                                textModel.setShowTextEditingWidget(true);
+                                textModel.generateTextCode('01', 4);
+                                serialModel.setShowSerialContainerFlag(true);
+                              }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/shape.png', 'Shape', () {
                             figureModel.setShowFigureWidget(true);
@@ -378,9 +378,9 @@ class _CreateLabelState extends State<CreateLabel> {
                           }),
                           ReuseAbleClass().buildIconButton(
                               'assets/icons/insert_excel.png', 'Insert Excel',
-                              () {
-                            bImageModel.setBackgroundImageContainerFlag(true);
-                          }),
+                                  () {
+                                bImageModel.setBackgroundImageContainerFlag(true);
+                              }),
                         ],
                       ),
                     ],
