@@ -12,30 +12,29 @@ class LabelRepository {
     try {
       dynamic response =
           await _apiServices.getApiResponse(backgroundImageCategoriesUrl);
-
-      print('response: $response');
-
-      // Assuming your response is a List<dynamic>
       List<dynamic> responseData = response as List<dynamic>;
-
-      // Mapping the dynamic list to a List<BackgroundCategoryModelClass>
       List<BackgroundCategoryModelClass> categories = responseData
           .map((json) => BackgroundCategoryModelClass.fromJson(json))
           .toList();
-
       return categories;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<BackgroundImageModel> fetchBackgroundImages() async {
+
+  Future<List<BackgroundImageModel>> fetchImages(String categoriesName) async {
     try {
-      dynamic response = await _apiServices.getApiResponse(backgroundImageUrl);
-      return BackgroundImageModel.fromJson(response);
+      dynamic response =
+      await _apiServices.getApiResponse(backgroundImageUrl(categoriesName));
+      List<dynamic> responseData = response as List<dynamic>;
+      List<BackgroundImageModel> categories = responseData
+          .map((json) => BackgroundImageModel.fromJson(json))
+          .toList();
+      return categories;
     } catch (e) {
       rethrow;
     }
   }
-}
 
+}

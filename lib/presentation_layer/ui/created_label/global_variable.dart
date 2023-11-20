@@ -127,14 +127,9 @@ int selectedLineCodeIndex = 0;
 
 
 //background image
-int? selectedImageHeight;
-int? selectedImageWidth;
 dynamic selectedImage;
 String? selectedBackgroundCategory;
 bool showBackgroundImageContainerWidget = false;
 bool showBackgroundImageContainerFlag = false;
-bool isLoadingImages = false;
 bool isConnected = true;
 bool isLoadingDataCheck = false;
-List<BackgroundCategoryModelClass> fetchedCategories = [];
-List<Map<String, dynamic>> fetchedImages = [];
