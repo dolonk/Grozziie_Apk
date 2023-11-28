@@ -3,25 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/background_image_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/figure_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/icon-provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/image_take_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/scan_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
-import 'package:grozziieapk/presentation_layer/serial_provider.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/scan_service_class.dart';
+import 'package:grozziieapk/presentation_layer/providers/serial_provider.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/scan_service_widget_class.dart';
 import 'package:grozziieapk/presentation_layer/ui/created_label/template_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_app_bar.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/my_bottom_bar.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/showBackgroundImageContainer.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_barcode_editing_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_date_time_editing_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_figure_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_image_take_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_line_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_qrcode_editing_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_serial_number_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_table_editing_container.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_text_editing_container.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +19,19 @@ import '../../providers/date_time_editing_provider.dart';
 import '../../providers/line_provider.dart';
 import '../../providers/on_tap_function_provider.dart';
 import '../../providers/text_editing_provider.dart';
+import 'function_template/my_app_bar.dart';
+import 'function_template/my_bottom_bar.dart';
+import 'function_template/showBackgroundImageContainer.dart';
+import 'function_template/show_barcode_editing_container.dart';
+import 'function_template/show_date_time_editing_container.dart';
+import 'function_template/show_figure_container.dart';
+import 'function_template/show_icon_container.dart';
+import 'function_template/show_image_take_container.dart';
+import 'function_template/show_line_container.dart';
+import 'function_template/show_qrcode_editing_container.dart';
+import 'function_template/show_serial_number_container.dart';
+import 'function_template/show_table_editing_container.dart';
+import 'function_template/show_text_editing_container.dart';
 import 'global_variable.dart';
 import '../../providers/date_time_editing_provider.dart' as flutter_timer;
 
@@ -43,6 +45,7 @@ class CreateLabel extends StatefulWidget {
 class _CreateLabelState extends State<CreateLabel> {
   DateTimeProvider dateTimeModel = DateTimeProvider();
   ImageTakeProvider imageModel = ImageTakeProvider();
+  IconProvider iconProvider = IconProvider();
 
   @override
   void initState() {
@@ -53,6 +56,9 @@ class _CreateLabelState extends State<CreateLabel> {
     dateTimeModel.selectDate = DateTime.now();
     dateTimeModel.selectedFormatDate = DateFormat.yMMMMd();
     imageModel.imagePicker = ImagePicker();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      iconProvider.fetchIconCategoriesApi();
+    });
     super.initState();
   }
 
@@ -114,6 +120,9 @@ class _CreateLabelState extends State<CreateLabel> {
         ChangeNotifierProvider<BackgroundImageProvider>(
           create: (_) => BackgroundImageProvider(),
         ),
+        ChangeNotifierProvider<IconProvider>(
+          create: (_) => IconProvider(),
+        ),
       ],
       child: Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
@@ -134,83 +143,101 @@ class _CreateLabelState extends State<CreateLabel> {
                                   builder: (context, imageModel, child) {
                                     return Consumer<ScanProvider>(
                                       builder: (context, scanModel, child) {
-                                        return Consumer<SerialProvider>(
-                                          builder:
-                                              (context, serialModel, child) {
-                                            return Consumer<FigureProvider>(
-                                              builder: (context, figureModel,
+                                        return Consumer<IconProvider>(
+                                          builder: (context, iconModel, child) {
+                                            return Consumer<SerialProvider>(
+                                              builder: (context, serialModel,
                                                   child) {
-                                                return Consumer<LineProvide>(
-                                                  builder: (context, lineModel,
-                                                      child) {
+                                                return Consumer<FigureProvider>(
+                                                  builder: (context,
+                                                      figureModel, child) {
                                                     return Consumer<
-                                                        BackgroundImageProvider>(
+                                                        LineProvide>(
                                                       builder: (context,
-                                                          bImageModel, child) {
-                                                        return Column(
-                                                          children: [
-                                                            Expanded(
-                                                                child: TemplateContainer(
-                                                                    context:
-                                                                        context)),
-                                                            if (showTextEditingContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowTextEditingContainer())
-                                                            else if (showBarcodeContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowBarcodeContainer())
-                                                            else if (showQrcodeContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowQrcodeContainer())
-                                                            else if (showTableContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowTableEditingContainer())
-                                                            else if (showDateContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowDateTimeEditingContainer())
-                                                            else if (showImageContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowImageTakeContainer())
-                                                            else if (showSerialContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowSerialNumberContainer())
-                                                            else if (showFigureContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowFigureContainer())
-                                                            else if (showLineContainerFlag)
-                                                              const Expanded(
-                                                                  child:
-                                                                      ShowLineContainer())
-                                                            else if (showBackgroundImageContainerFlag)
-                                                              Expanded(
-                                                                  child: ShowBackgroundImageContainer(
-                                                                      backgroundImageModel:
-                                                                          bImageModel))
-                                                            else
-                                                              Expanded(
-                                                                child: buildOptionsContainer(
-                                                                    context,
-                                                                    textModel,
-                                                                    dateTimeModel,
-                                                                    barcodeModel,
-                                                                    qrCodeModel,
-                                                                    tableModel,
-                                                                    imageModel,
-                                                                    scanModel,
-                                                                    serialModel,
-                                                                    figureModel,
-                                                                    lineModel,
-                                                                    bImageModel),
-                                                              ),
-                                                          ],
+                                                          lineModel, child) {
+                                                        return Consumer<
+                                                            BackgroundImageProvider>(
+                                                          builder: (context,
+                                                              bImageModel,
+                                                              child) {
+                                                            return Column(
+                                                              children: [
+                                                                Expanded(
+                                                                    child:
+                                                                        TemplateContainer(
+                                                                  context:
+                                                                      context,
+                                                                  containerWidth:
+                                                                      400,
+                                                                  containerHeight:
+                                                                      300,
+                                                                )),
+                                                                if (showTextEditingContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowTextEditingContainer())
+                                                                else if (showBarcodeContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowBarcodeContainer())
+                                                                else if (showQrcodeContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowQrcodeContainer())
+                                                                else if (showTableContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowTableEditingContainer())
+                                                                else if (showDateContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowDateTimeEditingContainer())
+                                                                else if (showImageContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowImageTakeContainer())
+                                                                else if (showSerialContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowSerialNumberContainer())
+                                                                else if (showFigureContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowFigureContainer())
+                                                                else if (showIconContainerFlag)
+                                                                  Expanded(
+                                                                      child: ShowIconContainer(
+                                                                          iconProvider:
+                                                                              iconModel))
+                                                                else if (showLineContainerFlag)
+                                                                  const Expanded(
+                                                                      child:
+                                                                          ShowLineContainer())
+                                                                else if (showBackgroundImageContainerFlag)
+                                                                  Expanded(
+                                                                      child: ShowBackgroundImageContainer(
+                                                                          backgroundImageModel:
+                                                                              bImageModel))
+                                                                else
+                                                                  Expanded(
+                                                                    child: buildOptionsContainer(
+                                                                        context,
+                                                                        textModel,
+                                                                        dateTimeModel,
+                                                                        barcodeModel,
+                                                                        qrCodeModel,
+                                                                        tableModel,
+                                                                        imageModel,
+                                                                        scanModel,
+                                                                        iconModel,
+                                                                        serialModel,
+                                                                        figureModel,
+                                                                        lineModel,
+                                                                        bImageModel),
+                                                                  ),
+                                                              ],
+                                                            );
+                                                          },
                                                         );
                                                       },
                                                     );
@@ -251,6 +278,7 @@ class _CreateLabelState extends State<CreateLabel> {
       TableProvider tableModel,
       ImageTakeProvider imageModel,
       ScanProvider scanModel,
+      IconProvider iconModel,
       SerialProvider serialModel,
       FigureProvider figureModel,
       LineProvide lineModel,
@@ -349,7 +377,9 @@ class _CreateLabelState extends State<CreateLabel> {
                                 dateTimeModel.getFormattedDateTime(), 3);
                           }),
                           ReuseAbleClass().buildIconButton(
-                              'assets/icons/emoji_icon.png', 'Emoji', () {}),
+                              'assets/icons/emoji_icon.png', 'Emoji', () {
+                            iconModel.setIconContainerFlag(true);
+                          }),
                         ],
                       ),
                       SizedBox(height: 15.h),

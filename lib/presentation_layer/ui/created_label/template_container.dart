@@ -3,32 +3,39 @@ import 'package:flutter/material.dart';
 import 'package:grozziieapk/presentation_layer/providers/barcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/date_time_editing_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/figure_provider.dart';
+import 'package:grozziieapk/presentation_layer/providers/icon-provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/image_take_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/on_tap_function_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/qrcode_provider.dart';
 import 'package:grozziieapk/presentation_layer/providers/table_provider.dart';
-import 'package:grozziieapk/presentation_layer/serial_provider.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/barcode_container_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/figure_container_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/image_take_container_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/line_container_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/qrcode_container_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/show_table_editing_class.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_container_class.dart';
+import 'package:grozziieapk/presentation_layer/providers/serial_provider.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/barcode_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/figure_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/icon_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/image_take_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/line_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/qrcode_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/table_editing_widget_class.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/show_widget_class/textediting_widget_class.dart';
 import 'package:provider/provider.dart';
 import '../../providers/line_provider.dart';
 import '../../providers/text_editing_provider.dart';
 import 'global_variable.dart';
 
+// ignore: must_be_immutable
 class TemplateContainer extends StatelessWidget {
   final BuildContext context;
+  double containerWidth;
+  double containerHeight;
 
-  const TemplateContainer({super.key, required this.context});
+  TemplateContainer(
+      {super.key,
+      required this.context,
+      required this.containerWidth,
+      required this.containerHeight});
 
   @override
   Widget build(BuildContext context) {
-    double containerHeight = 300;
-    double containerWidth = 400;
     return Consumer<OnTouchFunctionProvider>(
       builder: (context, onTouchModel, child) {
         return Consumer<TextEditingProvider>(
@@ -49,82 +56,117 @@ class TemplateContainer extends StatelessWidget {
                                       builder: (context, figureModel, child) {
                                         return Consumer<LineProvide>(
                                           builder: (context, lineModel, child) {
-                                            return Container(
-                                              height: containerHeight,
-                                              width: containerWidth,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.black),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(13)),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  if (showFigureWidget)
-                                                    for (var i = 0;
-                                                        i < figureCodes.length;
-                                                        i++)
-                                                      figureWidgetModel(
-                                                          i,
-                                                          figureModel,
-                                                          onTouchModel),
-                                                  if (showLineWidget)
-                                                    for (var i = 0;
-                                                        i < lineCodes.length;
-                                                        i++)
-                                                      lineWidgetModel(
-                                                          i,
-                                                          lineModel,
-                                                          onTouchModel),
-                                                  if (showTextEditingWidget)
-                                                    for (var i = 0;
-                                                        i < textCodes.length;
-                                                        i++)
-                                                      textDateWidgetModel(
-                                                        i,
-                                                        textModel,
-                                                        dateTimeModel,
-                                                        serialModel,
-                                                        onTouchModel,
-                                                      ),
-                                                  if (showBarcodeWidget)
-                                                    for (var i = 0;
-                                                        i < barCodes.length;
-                                                        i++)
-                                                      barcodeWidgetModel(
-                                                          i,
-                                                          barcodeModel,
-                                                          onTouchModel),
-                                                  if (showQrcodeWidget)
-                                                    for (var i = 0;
-                                                        i < qrCodes.length;
-                                                        i++)
-                                                      qrcodeWidgetModel(
-                                                          i,
-                                                          qrCodeModel,
-                                                          onTouchModel),
-                                                  if (showTableWidget)
-                                                    for (var i = 0;
-                                                        i < tableCodes.length;
-                                                        i++)
-                                                      tableWidgetModel(
-                                                          i,
-                                                          tableModel,
-                                                          onTouchModel),
-                                                  if (showImageWidget)
-                                                    for (var i = 0;
-                                                        i < imageCodes.length;
-                                                        i++)
-                                                      if (imageCodes[i] !=
-                                                          'demoImage')
-                                                        imageWidgetModel(
-                                                            i,
-                                                            imageModel,
-                                                            onTouchModel)
-                                                ],
-                                              ),
+                                            return Consumer<IconProvider>(
+                                              builder:
+                                                  (context, iconModel, child) {
+                                                return InkWell(
+                                                  onTap: () => onTouchModel
+                                                      .clearAllBorder(),
+                                                  child: Container(
+                                                    height: containerHeight,
+                                                    width: containerWidth,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: Colors.black),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  13)),
+                                                    ),
+                                                    child: Stack(
+                                                      children: [
+                                                        if (showFigureWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  figureCodes
+                                                                      .length;
+                                                              i++)
+                                                            figureWidgetModel(
+                                                                i,
+                                                                figureModel,
+                                                                onTouchModel),
+                                                        if (showLineWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  lineCodes
+                                                                      .length;
+                                                              i++)
+                                                            lineWidgetModel(
+                                                                i,
+                                                                lineModel,
+                                                                onTouchModel),
+                                                        if (showTextEditingWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  textCodes
+                                                                      .length;
+                                                              i++)
+                                                            textDateWidgetModel(
+                                                              i,
+                                                              textModel,
+                                                              dateTimeModel,
+                                                              serialModel,
+                                                              onTouchModel,
+                                                            ),
+                                                        if (showBarcodeWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  barCodes
+                                                                      .length;
+                                                              i++)
+                                                            barcodeWidgetModel(
+                                                                i,
+                                                                barcodeModel,
+                                                                onTouchModel),
+                                                        if (showQrcodeWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  qrCodes
+                                                                      .length;
+                                                              i++)
+                                                            qrcodeWidgetModel(
+                                                                i,
+                                                                qrCodeModel,
+                                                                onTouchModel),
+                                                        if (showTableWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  tableCodes
+                                                                      .length;
+                                                              i++)
+                                                            tableWidgetModel(
+                                                                i,
+                                                                tableModel,
+                                                                onTouchModel),
+                                                        if (showImageWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  imageCodes
+                                                                      .length;
+                                                              i++)
+                                                            if (imageCodes[i] !=
+                                                                'demoImage')
+                                                              imageWidgetModel(
+                                                                  i,
+                                                                  imageModel,
+                                                                  onTouchModel),
+                                                        if (showImageWidget)
+                                                          for (var i = 0;
+                                                              i <
+                                                                  iconCodes
+                                                                      .length;
+                                                              i++)
+                                                            iconWidgetModel(
+                                                                i,
+                                                                iconModel,
+                                                                onTouchModel),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             );
                                           },
                                         );
@@ -159,7 +201,7 @@ class TemplateContainer extends StatelessWidget {
       top: textCodeOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          textModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, textCodeOffsets, i);
         },
         onTapDown: (details) async {
           selectedTextCodeIndex = i;
@@ -205,7 +247,7 @@ class TemplateContainer extends StatelessWidget {
       top: barCodeOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          barcodeModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, barCodeOffsets, i);
         },
         onTapDown: (details) async {
           await onTouchModel.showBorderContainerFlag('barcode', true);
@@ -233,7 +275,7 @@ class TemplateContainer extends StatelessWidget {
       top: qrCodeOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          qrCodeModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, qrCodeOffsets, i);
         },
         onTapDown: (details) async {
           await onTouchModel.showBorderContainerFlag('qrcode', true);
@@ -257,7 +299,7 @@ class TemplateContainer extends StatelessWidget {
       top: tableOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          tableModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, tableOffsets, i);
         },
         onTapDown: (details) async {
           await onTouchModel.showBorderContainerFlag('table', true);
@@ -277,7 +319,7 @@ class TemplateContainer extends StatelessWidget {
       top: imageOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          imageModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, iconCodeOffsets, i);
         },
         onTapDown: (details) async {
           selectedImageCodeIndex = i;
@@ -303,7 +345,7 @@ class TemplateContainer extends StatelessWidget {
       top: figureOffsets[i].dy,
       child: GestureDetector(
         onPanUpdate: (details) {
-          figureModel.movingWidget(details, i);
+          onTouchModel.movingWidget(details, figureOffsets, i);
         },
         onTapDown: (details) async {
           selectedFigureCodeIndex = i;
@@ -343,6 +385,29 @@ class TemplateContainer extends StatelessWidget {
             selectIndex: i,
             borderLineWidth: updateSliderLineWidth[i],
             isDottedLine: isDottedLineUpdate[i],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget iconWidgetModel(
+      int i, IconProvider iconModel, OnTouchFunctionProvider onTouchModel) {
+    return Positioned(
+      left: iconCodeOffsets[i].dx,
+      top: iconCodeOffsets[i].dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          onTouchModel.movingWidget(details, iconCodeOffsets, i);
+        },
+        onTapDown: (details) async {
+          await onTouchModel.showBorderContainerFlag('icon', true);
+          selectedIconCodeIndex = i;
+        },
+        child: Transform.rotate(
+          angle: -iconCodesContainerRotations[i],
+          child: IconWidgetClass(
+            iconIndex: i,
           ),
         ),
       ),

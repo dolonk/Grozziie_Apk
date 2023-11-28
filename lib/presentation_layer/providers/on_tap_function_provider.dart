@@ -170,7 +170,47 @@ class OnTouchFunctionProvider extends ChangeNotifier {
       showDateContainerFlag = false;
       figureBorderWidget = false;
       showFigureContainerFlag = false;
+    }else if (flagToSet == 'icon') {
+      iconBorderWidget = value;
+      showIconContainerFlag = value;
+
+      textBorderWidget = false;
+      showSerialContainerFlag = false;
+      showTextEditingContainerFlag = false;
+      barcodeBorderWidget = false;
+      showBarcodeContainerFlag = false;
+      qrcodeBorderWidget = false;
+      showQrcodeContainerFlag = false;
+      tableBorderWidget = false;
+      showTableContainerFlag = false;
+      imageBorderWidget = false;
+      showImageContainerFlag = false;
+      showDateContainerFlag = false;
+      figureBorderWidget = false;
+      showFigureContainerFlag = false;
+      lineBorderWidget = false;
+      showLineContainerFlag = false;
     }
+    notifyListeners();
+  }
+
+  void movingWidget(DragUpdateDetails details, List<Offset> selectOffsets, int tableIndex) {
+    selectOffsets[tableIndex] = Offset(
+      selectOffsets[tableIndex].dx + details.delta.dx,
+      selectOffsets[tableIndex].dy + details.delta.dy,
+    );
+    notifyListeners();
+  }
+
+  void clearAllBorder(){
+    textBorderWidget = false;
+    barcodeBorderWidget = false;
+    qrcodeBorderWidget = false;
+    tableBorderWidget = false;
+    imageBorderWidget = false;
+    iconBorderWidget = false;
+    figureBorderWidget = false;
+    lineBorderWidget = false;
     notifyListeners();
   }
 

@@ -15,13 +15,6 @@ class TableProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onTouchFunction(TapDownDetails details) {
-    tableBorderWidget = true;
-    textBorderWidget = false;
-    barcodeBorderWidget = false;
-    qrcodeBorderWidget = false;
-    notifyListeners();
-  }
 
   void setShowTableEditingWidget(bool flag) {
     showTableWidget = flag;

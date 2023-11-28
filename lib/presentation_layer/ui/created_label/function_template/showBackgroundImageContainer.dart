@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/utils/app_style.dart';
 import 'package:grozziieapk/utils/utils.dart';
 import 'package:provider/provider.dart';
-import '../../../data_layer/remote_server/model/background_image/background_categories.dart';
+import '../../../data_layer/model/background_image/background_image_model.dart';
 import '../../../data_layer/remote_server/response/api_response.dart';
 import '../../../data_layer/remote_server/response/status.dart';
 import '../../../providers/background_image_provider.dart';
@@ -72,7 +72,9 @@ class _ShowBackgroundImageContainerState
                 Container(
                   height: 175.h,
                   color: Colors.white,
-                  child: Center(child: _buildCategoriesList(bImageModel.categoriesList,bImageModel)),
+                  child: Center(
+                      child: _buildCategoriesList(
+                          bImageModel.categoriesList, bImageModel)),
                 )
               ],
             ),
@@ -83,7 +85,8 @@ class _ShowBackgroundImageContainerState
   }
 
   Widget _buildCategoriesList(
-      ApiResponse<List<BackgroundCategoryModelClass>> categoriesList,BackgroundImageProvider backgroundImageModel) {
+      ApiResponse<List<BackgroundImageModel>> categoriesList,
+      BackgroundImageProvider backgroundImageModel) {
     switch (categoriesList.status) {
       case Status.LOADING:
         return const Center(child: CircularProgressIndicator());
@@ -100,11 +103,11 @@ class _ShowBackgroundImageContainerState
                       itemCount: categoriesList.data!.length,
                       itemBuilder: (context, index) {
                         var categorisName =
-                            categoriesList.data![index].allBackgroundCategories;
+                            categoriesList.data![index].allBackgroundCategoris;
                         return GestureDetector(
                           onTap: () async {
                             backgroundImageModel.imagesList.clear();
-                           backgroundImageModel.setImageList(categorisName);
+                            backgroundImageModel.setImageList(categorisName);
                           },
                           child: Container(
                             margin: const EdgeInsets.all(10),
@@ -117,7 +120,7 @@ class _ShowBackgroundImageContainerState
                                     width: 2)),
                             child: Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Text(categorisName),
+                              child: Text(categorisName!),
                             ),
                           ),
                         );
@@ -128,47 +131,50 @@ class _ShowBackgroundImageContainerState
                   SizedBox(
                     height: 125.h,
                     width: double.infinity,
-                    child: isLoadingDataCheck? const Center(child: CircularProgressIndicator()): GridView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(10),
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        mainAxisExtent: 100,
-                      ),
-                      itemCount: backgroundImageModel.imagesList.length,
-                      itemBuilder: (context, index) {
-                        var height = backgroundImageModel.imagesList[index].height;
-                        var width = backgroundImageModel.imagesList[index].width;
-                        var imageUrl = backgroundImageModel.imagesList[index].image;
-                        return InkWell(
-                          onTap: () {
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black, width: 2)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Column(
-                                children: [
-                                  Image.network(
-                                    imageUrl!,
-                                    height: 70,
-                                    width: double.infinity,
-                                  ),
-                                  Text('Size: $height * $width'),
-                                ],
-                              ),
+                    child: isLoadingDataCheck
+                        ? const Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(10),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              mainAxisExtent: 100,
                             ),
+                            itemCount: backgroundImageModel.imagesList.length,
+                            itemBuilder: (context, index) {
+                              var height =
+                                  backgroundImageModel.imagesList[index].height;
+                              var width =
+                                  backgroundImageModel.imagesList[index].width;
+                              var imageUrl =
+                                  backgroundImageModel.imagesList[index].image;
+                              return InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, width: 2)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Column(
+                                      children: [
+                                        Image.network(
+                                          imageUrl!,
+                                          height: 70,
+                                          width: double.infinity,
+                                        ),
+                                        Text('Size: $height * $width'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ),
-
                 ],
               )
             : SizedBox(
@@ -183,12 +189,13 @@ class _ShowBackgroundImageContainerState
               Align(
                 alignment: Alignment.center,
                 child: ReusableButton(
-                  height: 35.h,
+                    height: 35.h,
                     width: 110.w,
                     buttonColor: primaryBlue,
-                    text: 'Reload', onPressed: (){
-                  backgroundImageModel.fetchBackgroundCategoriesApi();
-                }),
+                    text: 'Reload',
+                    onPressed: () {
+                      backgroundImageModel.fetchBackgroundCategoriesApi();
+                    }),
               )
             ],
           ),
@@ -198,5 +205,4 @@ class _ShowBackgroundImageContainerState
         return Container();
     }
   }
-
 }

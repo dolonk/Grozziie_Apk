@@ -2,7 +2,6 @@ import 'dart:core';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grozziieapk/presentation_layer/data_layer/remote_server/model/background_image/background_categories.dart';
 
 
 double screenWidth = ScreenUtil().screenWidth;
@@ -92,6 +91,26 @@ List<int> selectTimeTextScanInt = [];
 //bool showDateContainerWidget = false;
 bool showDateContainerFlag = false;
 int selectedTimeCodeIndex = 0;
+
+
+
+
+// Icon Widget Variable
+String? selectedIconCategory;
+dynamic selectDolon;
+bool showIconWidget = false;
+bool showIconContainerFlag = false;
+bool iconBorderWidget = false;
+// Multiple emoji  function variable
+List<String> iconCodes = [];
+List<Offset> iconCodeOffsets = [];
+List<dynamic> selectedIcons = [];
+List<double> iconCodesContainerRotations = [];
+List<double> updatedIconWidth = [];
+int selectedIconCodeIndex = 0;
+
+
+
 
 // Figure Widget Variable
 bool showFigureWidget = false;

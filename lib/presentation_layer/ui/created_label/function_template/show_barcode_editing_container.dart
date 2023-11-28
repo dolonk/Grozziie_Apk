@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../utils/app_style.dart';
 import '../../../../utils/utils.dart';
 import '../global_variable.dart';
-import '../show_widget_class/barcode_container_class.dart';
+import '../show_widget_class/barcode_widget_class.dart';
 
 class ShowBarcodeContainer extends StatelessWidget {
   const ShowBarcodeContainer({super.key});

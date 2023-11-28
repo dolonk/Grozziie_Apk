@@ -1,5 +1,14 @@
+class AppUrl {
 
+  static const baseUrl = 'https://grozziie.zjweiting.com:8033/tht/';
 
-const backgroundImageCategoriesUrl = 'https://grozziie.zjweiting.com:8033/tht/BackgroundCategories';
+  static const backgroundImageCategoriesUrl = '${baseUrl}BackgroundCategories';
 
- backgroundImageUrl(String categoriesName) => 'https://grozziie.zjweiting.com:8033/tht/backgroundImgs/$categoriesName';
+  static backgroundImageUrl(String categoriesName) =>
+      '${baseUrl}backgroundImgs/$categoriesName';
+
+  static const iconCategoriesUrl = '${baseUrl}iconCategories';
+
+  static iconImagesUrl(String categoriesName) =>
+      '${baseUrl}icons/$categoriesName';
+}

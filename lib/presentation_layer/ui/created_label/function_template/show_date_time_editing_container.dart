@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grozziieapk/presentation_layer/providers/on_tap_function_provider.dart';
-import 'package:grozziieapk/presentation_layer/ui/created_label/widgets/show_text_editing_container.dart';
+import 'package:grozziieapk/presentation_layer/ui/created_label/function_template/show_text_editing_container.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/app_style.dart';
 import '../../../../utils/utils.dart';
